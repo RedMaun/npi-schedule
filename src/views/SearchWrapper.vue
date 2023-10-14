@@ -6,7 +6,7 @@
 
 <template>
     <Header></Header>
-    <Suspense timeout="0">
+    <Suspense >
         <template #default>
             <SearchView></SearchView>
         </template>

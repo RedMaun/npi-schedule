@@ -1,6 +1,7 @@
 <script setup>
 import MainFrame from '../components/MainFrame.vue'
 import Spinner from '../components/Spinner.vue'
+import Header from '../components/Header.vue'
 </script>
 <script> 
 import { reactive } from 'vue'
@@ -46,6 +47,7 @@ export default {
 }
 </script>
 <template>
+    <Header></Header>
     <Suspense timeout="0">
         <template #default>
             <MainFrame reactive="isFetching" v-if="!isFetching.value" :type="type" :groupName="groupName" :info="[urlJson.finals, urlJson.semester]" :weeks="weeks"></MainFrame>

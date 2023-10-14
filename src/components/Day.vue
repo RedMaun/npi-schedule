@@ -95,92 +95,89 @@
                             <span class="classEnd">{{ times[i.class - 1][1] }}</span>
                         </div>
                     </td>
-                    <td  class="dayDiscipline" >
-                        <div class="disciplineName" reactive="timeNow">
-                            <div class="disciplineNameText " v-if="i.firstRow !== '-' && i.firstRow != '' && i.firstRow !== '.' && i.type != '' && i.type != '-' && i.type != '.'" >
-                                <font-awesome-icon icon="bookmark"  class="fa-1x" :style="{'margin-right': '0.5rem', color: props.colors[i.type].color }"/>
-                                <div class="spanCont">
-                                    <div :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, index, timeNow.value) ? 'activeCl' : ''" >{{ i.firstRow }}</div>
-                                    <!-- <div class="currentCl" v-if="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, index, timeNow.value)" >Текущая пара</div> -->
-                                </div>    
-                            </div>
-                            <div class="disciplineNameText " v-else-if="i.firstRow !== '-' && i.firstRow != '' && i.firstRow !== '.'"> 
-                                <font-awesome-icon icon="bookmark"  class="fa-1x" :style="{'margin-right': '0.5rem'}"/>
-                                <div class="spanCont">
-                                    <div :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, index, timeNow.value) ? 'activeCl' : ''" >{{ i.firstRow }}</div>
-                                    <!-- <div class="currentCl" v-if="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, index, timeNow.value)" >Текущая пара</div> -->
-                                </div>
-                            </div>
-                            <div class="disciplineNameText " v-else> 
-                                <font-awesome-icon icon="bookmark"  class="fa-1x" :style="{'margin-right': '0.5rem'}"/>
-                                <div class="spanCont">
-                                    <div :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, index, timeNow.value) ? 'activeCl' : ''" >Пусто</div>
-                                    <!-- <div class="currentCl" v-if="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, index, timeNow.value)" >Текущая пара</div> -->
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="disciplinelecturer" v-if="Array.isArray(i.secondRow) && props.type == 'au' || props.type == 'st' " >  
-                            <div v-for="(g, ind) in i.secondRow" :key="ind" style="padding-top: 0.2rem;">
-                                <div>
-                                    <router-link v-if="lecturerClickable(g)" :to="'/lecturers/' + encodeURI(g.split(' ')[0] + ' ' + g.split(' ')[1] + ' ' + g.split(' ')[2]) + '/schedule'">
+                    <td class="dayDiscipline" >
+                        <table>
+                            <tr class="disciplineName" reactive="timeNow">
+                                <tr class="disciplineNameText " v-if="i.firstRow !== '-' && i.firstRow != '' && i.firstRow !== '.' && i.type != '' && i.type != '-' && i.type != '.'" >
+                                    <td class="icon"><font-awesome-icon icon="bookmark"  class="fa-1x" :style="{color: props.colors[i.type].color }"/></td>
+                                    <td class="text" :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, index, timeNow.value) ? 'activeCl' : ''" >{{ i.firstRow }}</td>
+                                </tr>
+                                <tr class="disciplineNameText " v-else-if="i.firstRow !== '-' && i.firstRow != '' && i.firstRow !== '.'"> 
+                                    <td class="icon"><font-awesome-icon icon="bookmark"  class="fa-1x"/></td>
+                                    <td class="text" :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, index, timeNow.value) ? 'activeCl' : ''" >{{ i.firstRow }}</td>
+                                </tr>
+                                <tr class="disciplineNameText " v-else> 
+                                    <td class="icon"><font-awesome-icon icon="bookmark"  class="fa-1x"/></td>
+                                    <td class="text" :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, index, timeNow.value) ? 'activeCl' : ''" >Пусто</td>
+                                </tr>
+                            </tr>
+                            
+                            <tr class="disciplinelecturer" v-if="Array.isArray(i.secondRow) && props.type == 'au' || props.type == 'st' " >  
+                                <div v-for="(g, ind) in i.secondRow" :key="ind" >
+                                    <a v-if="lecturerClickable(g)" :href="'/lecturers/' + encodeURI(g.split(' ')[0] + ' ' + g.split(' ')[1] + ' ' + g.split(' ')[2]) + '/schedule'">
                                         <div v-if="g !== '-' && g != '' && g !== '.'">
-                                            <font-awesome-icon icon="user" :style="{'margin-right': '0.4rem'}" class="fa-1x"/>
-                                            <span>{{ g }}</span> 
+                                            <td class="icon"><font-awesome-icon icon="user" class="fa-1x"/></td>
+                                            <td class="text">{{ g }}</td> 
                                         </div>
                                         <div v-else>
-                                            <font-awesome-icon icon="user" :style="{'margin-right': '0.4rem'}" class="fa-1x"/>
-                                            <span>Пусто</span> 
+                                            <td class="icon"><font-awesome-icon icon="user"  class="fa-1x"/></td>
+                                            <td class="text">Пусто</td> 
                                         </div>
-                                    </router-link>
+                                    </a>
                                     <div v-else>
                                         <div v-if="g !== '-' && g != '' && g !== '.'">
-                                            <font-awesome-icon icon="user" :style="{'margin-right': '0.4rem'}" class="fa-1x"/>
-                                            <span>{{ g }}</span> 
+                                            <td class="icon"><font-awesome-icon icon="user"  class="fa-1x"/></td>
+                                            <td class="text">{{ g }}</td> 
                                         </div>
                                         <div v-else>
-                                            <font-awesome-icon icon="user" :style="{'margin-right': '0.4rem'}" class="fa-1x"/>
-                                            <span>Пусто</span> 
+                                            <td class="icon"><font-awesome-icon icon="user" class="fa-1x"/></td>
+                                            <td class="text">Пусто</td> 
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="disciplinelecturer" v-else-if="Array.isArray(i.secondRow) && props.type != 'au'">  
-                            <div v-for="(g, ind) in i.secondRow" :key="ind" style="padding-top: 0.2rem;">
-                                <div v-if="g !== '-' && g != '' && g !== '.'">
-                                    <font-awesome-icon icon="user-group" :style="{'margin-right': '0.4rem'}" class="fa-1x"/>
-                                    <span>{{ g }}</span> 
+                            </tr>
+                            <tr class="disciplinelecturer" v-else-if="Array.isArray(i.secondRow) && props.type != 'au'">  
+                                <div v-for="(g, ind) in i.secondRow" :key="ind" >
+                                    <div v-if="g !== '-' && g != '' && g !== '.'">
+                                        <td class="icon"><font-awesome-icon icon="user-group"  class="fa-1x"/></td>
+                                        <td class="text">{{ g }}</td> 
+                                    </div>
+                                    <div v-else>
+                                        <td class="icon"><font-awesome-icon icon="user-group"  class="fa-1x"/></td>
+                                        <td class="text">Пусто</td> 
+                                    </div>
                                 </div>
-                                <div v-else>
-                                    <font-awesome-icon icon="user-group" :style="{'margin-right': '0.4rem'}" class="fa-1x"/>
-                                    <span>Пусто</span> 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="disciplinelecturer" v-else> <font-awesome-icon icon="user"  class="fa-1x" :style="{'margin-right': '0.4rem'}" /> Пусто</div>
+                            </tr>
+                            <tr class="disciplinelecturer" v-else> 
+                                <td class="icon"><font-awesome-icon icon="user"  class="fa-1x"  /></td>
+                                <td class="text">Пусто</td>
+                            </tr>
 
-                        <div class="disciplineAuditorium" v-if="i.thirdRow !== '-' && i.thirdRow != '' && i.thirdRow !== '.' && Array.isArray(i.thirdRow) && props.type == 'au'"> 
-                            <div v-for="(g, ind) in i.thirdRow" :key="ind">
-                                <font-awesome-icon icon="user-group" :style="{'margin-right': '0.4rem'}" class="fa-1x"/>
-                                <span>{{ g }}</span> 
-                            </div>
-                        </div>
-                        <div  v-else-if="i.thirdRow !== '-' && i.thirdRow != '' && i.thirdRow !== '.'">
-                            <router-link v-for="(z, ind) in i.thirdRow" :to="`/auditoriums/${z}/schedule`" class="disciplineAuditorium"> 
-                                <div style="display: block;">
-                                    <div v-if="ind > 0">
-                                        <font-awesome-icon icon="compass" class="fa-1x" :style="{'margin-right': '0.4rem', 'margin-top': '0.4rem'}"/>
-                                        <span>{{ z }}</span>
-                                    </div>
-                                    <div v-else>
-                                        <font-awesome-icon icon="compass" class="fa-1x" :style="{'margin-right': '0.4rem'}"/>
-                                        <span>{{ z }}</span>
-                                    </div>
+                            <tr class="disciplineAuditorium" v-if="i.thirdRow !== '-' && i.thirdRow != '' && i.thirdRow !== '.' && Array.isArray(i.thirdRow) && props.type == 'au'"> 
+                                <div v-for="(g, ind) in i.thirdRow" :key="ind">
+                                    <td class="icon"><font-awesome-icon icon="user-group" class="fa-1x"/></td>
+                                    <td class="text">{{ g }}</td> 
                                 </div>
-                            </router-link>
-                        </div>
-                        <div class="disciplineAuditorium" v-else> <font-awesome-icon icon="compass"  class="fa-1x" /> Пусто</div>
+                            </tr>
+                            <tr  v-else-if="i.thirdRow !== '-' && i.thirdRow != '' && i.thirdRow !== '.'">
+                                <a v-for="(z, ind) in i.thirdRow" :href="`/auditoriums/${z}/schedule`" class="disciplineAuditorium"> 
+                                    <div style="display: block;">
+                                        <div v-if="ind > 0">
+                                            <td class="icon"><font-awesome-icon icon="compass" class="fa-1x" /></td>
+                                            <td class="text">{{ z }}</td>
+                                        </div>
+                                        <div v-else>
+                                            <td class="icon"><font-awesome-icon icon="compass" class="fa-1x" /></td>
+                                            <td class="text">{{ z }}</td>
+                                        </div>
+                                    </div>
+                                </a>
+                            </tr>
+                            <tr class="disciplineAuditorium" v-else> 
+                                <td class="icon"><font-awesome-icon icon="compass"  class="fa-1x" /></td>
+                                <td class="text">Пусто</td>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
             </table>
@@ -193,21 +190,23 @@
     {
         text-decoration: none;
     }
-    .disciplinelecturer, .disciplineAuditorium
+
+    .icon
     {
-        padding-bottom: 0.2rem;
-    }
-    .disciplinelecturer 
-    {
+        padding: 0;
+        width: 1.6rem;
+        text-align: center;
         padding-top: 0.2rem;
-        padding-bottom: 0.6rem;
+        line-height: 1rem;
     }
-    .disciplineNameText
+    .text
     {
-        display: inline-block;
-        position: relative;
-        /* left: 5rem; */
+        line-height: 1rem;
+        padding: 0;
+        width: fit-content;
+        padding-top: 0.2rem;
     }
+
     .dayCont
     {
         width: 40rem;
@@ -251,9 +250,6 @@
 
     tr, th, td
     {
-        /* border: 2px solid #69c; */
-        text-decoration: none;
-        font-weight: normal;
         padding: 0.5rem;
         
     }
@@ -268,15 +264,10 @@
     .row1, .row2, .timeText
     {
         padding: 0.5rem;
-        
     }
     .dayDiscipline
     {
-        text-align: left;
-        padding-top: 1rem;
-        padding-left: 1rem;
         border-left: 0.1rem solid #44475a;
-        text-wrap: normal;
     }
     .timeText
     {
@@ -287,14 +278,11 @@
         width: 2rem;
         padding-left: 1rem;
         padding-right: 0.75rem;
-        /* padding-left: 0.25rem; */
     }
     .row0
     {
         width: 0rem;
         background-color: #44475a1a;
-        /* padding-right: 0rem; */
-        /* background: #44475a; */
     }
     .row0 span
     {
@@ -341,32 +329,6 @@
         white-space: nowrap;
         border-radius: 0.5rem;
     }
-    .spanCont
-    {
-        /* display: inline-block; */
-        /* position: absolute; */
-        position: relative;
-        left: 1.3rem;
-        padding-right: 1.3rem;
-        top: 0;
-        /* position: absolute; */
-        width: fit-content;
-        /* display: table-cell; */
-    }
-    .fa-bookmark
-    {
-        /* color: red !important; */
-        margin: 0;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 0;
-        /* bottom: 0; */
-        /* top: 0;
-        bottom: 0;
-        left: 0; */
-        /* margin: auto 0; */
-    }
     .activeCl
     {
         border-radius: 0.5rem;
@@ -391,42 +353,4 @@
             width: 96%;
         }
     }   
-    /*
-        @media only screen and (max-width: 560px) {
-        *
-        {
-            font-size: x-small;
-        }
-        .dayCont
-        {
-            width: 98%;
-        }
-        .row1
-        {
-            padding: 0.1rem;
-            width: fit-content;
-        }
-        .tableCont
-        {
-            padding: 1rem;
-        }
-        .dayDiscipline
-        {
-            padding: 0.5rem;
-        }
-        .dayTitle
-        {
-            height: 2rem;
-            line-height: 2rem;
-        }
-        .disciplineName
-        {
-            padding-bottom: 0.1rem;
-        }
-        .disciplinelecturer 
-        {
-            padding-bottom: 0.3rem;
-        }
-    }
-    */
 </style>

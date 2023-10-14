@@ -204,22 +204,6 @@
 
 </script>
 
-<script>
-
-  export default {
-    mounted() {
-        this.$watch(
-            () => this.$route.params,
-            (toParams, previousParams) => {
-                location.reload()
-            }
-        )
-    }
-  }
-  
-</script>
-
-
 <template>
   <div v-drag="dragHandler">
     <div id="header">
