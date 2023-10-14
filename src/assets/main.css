@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap");
+:root {
+  color-scheme: dark;
+}
+* {
+  padding: 0px;
+  margin: 0px;
+  font-size: large;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  overflow-y: scroll;
+  background-color: #1a1b22;
+  color: #f8f8f2;
+}
+#app {
+  height: 100%;
+}

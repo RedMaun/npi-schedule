@@ -1,0 +1,38 @@
+{
+  "name": "npi-schedule",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vite build",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "dev": "vite",
+    "format": "prettier --write src/",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-brands-svg-icons": "^6.4.2",
+    "@fortawesome/free-regular-svg-icons": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/vue-fontawesome": "^3.0.3",
+    "@vue/cli-service": "^5.0.8",
+    "@vueuse/gesture": "^2.0.0-beta.1",
+    "@vueuse/motion": "^2.0.0",
+    "express": "^4.18.2",
+    "popmotion": "^11.0.5",
+    "register-service-worker": "^1.7.2",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.4",
+    "vue3-pdfmake": "^2.2.0",
+    "workbox": "^0.0.0",
+    "workbox-core": "^7.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.3.4",
+    "@vitejs/plugin-vue-jsx": "^3.0.2",
+    "@vue/cli-plugin-pwa": "~5.0.0",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "vite": "^4.4.9"
+  }
+}
