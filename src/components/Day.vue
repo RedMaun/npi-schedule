@@ -42,12 +42,10 @@
     var dayOfWeek = new Date().getDay()
     dayOfWeek = dayOfWeek == 0 ? 7 : dayOfWeek
 
-    const isCurrentClass = props.data.day == props.nextDay[0] && props.week == props.nextDay[1]
-
     import { ref, onMounted } from 'vue'
     const activeClass = ref(null)
     onMounted(() => {
-        if (isCurrentClass)
+        if (props.data.day == props.nextDay[0] && props.week == props.nextDay[1])
         {
             activeClass.value.scrollIntoView({block: "center", inline: "start"})
         }
@@ -100,15 +98,15 @@
                             <tr class="disciplineName" reactive="timeNow">
                                 <tr class="disciplineNameText " v-if="i.firstRow !== '-' && i.firstRow != '' && i.firstRow !== '.' && i.type != '' && i.type != '-' && i.type != '.'" >
                                     <td class="icon"><font-awesome-icon icon="bookmark"  class="fa-1x" :style="{color: props.colors[i.type].color }"/></td>
-                                    <td class="text" :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, index, timeNow.value) ? 'activeCl' : ''" >{{ i.firstRow }}</td>
+                                    <td class="text" :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, i.class - 1, timeNow.value) ? 'activeCl' : ''" >{{ i.firstRow }}</td>
                                 </tr>
                                 <tr class="disciplineNameText " v-else-if="i.firstRow !== '-' && i.firstRow != '' && i.firstRow !== '.'"> 
                                     <td class="icon"><font-awesome-icon icon="bookmark"  class="fa-1x"/></td>
-                                    <td class="text" :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, index, timeNow.value) ? 'activeCl' : ''" >{{ i.firstRow }}</td>
+                                    <td class="text" :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, i.class - 1, timeNow.value) ? 'activeCl' : ''" >{{ i.firstRow }}</td>
                                 </tr>
                                 <tr class="disciplineNameText " v-else> 
                                     <td class="icon"><font-awesome-icon icon="bookmark"  class="fa-1x"/></td>
-                                    <td class="text" :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, index, timeNow.value) ? 'activeCl' : ''" >Пусто</td>
+                                    <td class="text" :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, i.class - 1, timeNow.value) ? 'activeCl' : ''" >Пусто</td>
                                 </tr>
                             </tr>
                             
