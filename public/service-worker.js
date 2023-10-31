@@ -1,9 +1,9 @@
-const CACHE = "schedule_v9";
+const CACHE = "schedule_v10";
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
 const registerRoute = workbox.routing.registerRoute
-const StaleWhileRevalidate = workbox.strategies.StaleWhileRevalidate
+const NetworkFirst = workbox.strategies.NetworkFirst
 
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
@@ -13,7 +13,7 @@ self.addEventListener("message", (event) => {
 
 registerRoute(
   new RegExp('/*'),
-  new StaleWhileRevalidate({
+  new NetworkFirst({
     cacheName: CACHE
   })
 )

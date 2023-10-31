@@ -1,6 +1,6 @@
 
 <script setup>
-  import { reactive } from 'vue'
+  import { reactive, ref } from 'vue'
   import Day from './Day.vue'
   import Pdf from './Pdf.vue'
 
@@ -201,7 +201,13 @@
       buttons(2)
     }
   }
-
+  const timeNow = ref(new Date().getHours() * 60 + new Date().getMinutes())
+  import { onMounted } from 'vue'
+  onMounted(() => {
+    setInterval(() => {
+        timeNow.value = new Date().getHours() * 60 + new Date().getMinutes()
+    }, 60000)
+  })
 </script>
 
 <template>
@@ -229,12 +235,12 @@
       <div id="infoCont" v-else style="margin-top: 1rem;"></div>
       <div id="mainFrame">
         <div reactive="currentWeek" v-if="weeks[currentWeek.value - 1] && weeks[currentWeek.value - 1].length != 0">
-          <Day v-for="(i, index) in currentWeek.value == 1 ? weeks[0] : weeks[1]" :key="index" reactive="currentWeek" :colors="colors" :type="props.type" :week=currentWeek.value :data=i :nextDay=nextDay></Day>
+          <Day v-for="(i, index) in currentWeek.value == 1 ? weeks[0] : weeks[1]" :key="index" reactive="currentWeek" :colors="colors" :timeNow="timeNow" :type="props.type" :week=currentWeek.value :data=i :nextDay=nextDay></Day>
         </div>
         <div :style="{width: 'fit-content', 'margin': 'auto', 'margin-top': '2rem', 'margin-bottom': '2rem'}" v-else>Нет расписания!</div>
         </div>
       <div reactive="currentWeek" id="disciplineTypes" v-if="weeks[currentWeek.value - 1] && weeks[currentWeek.value - 1].length != 0">
-        <Suspense><div v-for="(i, index) in adaptiveTypes(weeks, currentWeek)" class="disciplineType" :key="index" :style="{'background-color': colors[i].color, 'color': '#282a36'}">{{colors[i].name}}</div></Suspense>
+        <div v-for="(i, index) in adaptiveTypes(weeks, currentWeek)" class="disciplineType" :key="index" :style="{'background-color': colors[i].color, 'color': '#282a36'}">{{colors[i].name}}</div>
       </div>
     </div>
   </div>

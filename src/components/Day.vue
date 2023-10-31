@@ -6,8 +6,11 @@
         data: Object,
         nextDay: Array,
         type: String,
-        colors: Object
+        colors: Object,
+        timeNow: Number
     })
+
+    const timeNow = props.timeNow
     
     const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
 
@@ -47,33 +50,16 @@
     onMounted(() => {
         if (props.data.day == props.nextDay[0] && props.week == props.nextDay[1])
         {
-            activeClass.value.scrollIntoView({block: "center", inline: "start"})
+            activeClass.value.scrollIntoView({block: "start"})
+            let headerHeight = document.getElementById("header").offsetHeight
+            window.scroll(0, window.scrollY - headerHeight - 10)
         }
     })
 </script>
 
-<script>
-    import { reactive } from 'vue'
-    export default {
-
-        data() {
-        return {
-                timeNow: reactive({value: new Date().getHours() * 60 + new Date().getMinutes()}),
-            };
-        },
-        props: ['week', 'data', 'nextDay', 'type'],
-        mounted() {
-
-            setInterval(() => {
-                this.timeNow.value = new Date().getHours() * 60 + new Date().getMinutes()
-            }, 60000)
-        }
-    }
-</script>
-
 <template>
     <div v-if="data.classes.length > 0 && !isEmptyDay()" class="dayCont" ref="activeClass">
-        <div v-if="props.type != 'st-fin' && props.type != 'pr-fin' " class="dayTitle" :style="{background: data.day == nextDay[0] && week == nextDay[1] ? '#ff5555' : '#6272a4'}">{{ days[data.day - 1] }}</div>
+        <div v-if="type != 'st-fin' && type != 'pr-fin' " class="dayTitle" :style="{background: data.day == nextDay[0] && week == nextDay[1] ? '#ff5555' : '#6272a4'}">{{ days[data.day - 1] }}</div>
         <div v-else class="dayTitle" :style="{background: data.day == nextDay[0] && week == nextDay[1] ? '#ff5555' : '#6272a4'}">{{ data.date.split('-').reverse().join('.') }}</div>
 
         <div class="tableCont" :style="{border: data.day == nextDay[0] && week == nextDay[1] ? '0.1rem solid #ff5555' : '0.1rem solid #6272a4'}">
@@ -97,20 +83,20 @@
                         <table>
                             <tr class="disciplineName" reactive="timeNow">
                                 <tr class="disciplineNameText " v-if="i.firstRow !== '-' && i.firstRow != '' && i.firstRow !== '.' && i.type != '' && i.type != '-' && i.type != '.'" >
-                                    <td class="icon"><font-awesome-icon icon="bookmark"  class="fa-1x" :style="{color: props.colors[i.type].color }"/></td>
-                                    <td class="text" :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, i.class - 1, timeNow.value) ? 'activeCl' : ''" >{{ i.firstRow }}</td>
+                                    <td class="icon"><font-awesome-icon icon="bookmark"  class="fa-1x" :style="{color: colors[i.type].color }"/></td>
+                                    <td class="text" :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, i.class - 1, timeNow) ? 'activeCl' : ''" >{{ i.firstRow }}</td>
                                 </tr>
                                 <tr class="disciplineNameText " v-else-if="i.firstRow !== '-' && i.firstRow != '' && i.firstRow !== '.'"> 
                                     <td class="icon"><font-awesome-icon icon="bookmark"  class="fa-1x"/></td>
-                                    <td class="text" :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, i.class - 1, timeNow.value) ? 'activeCl' : ''" >{{ i.firstRow }}</td>
+                                    <td class="text" :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, i.class - 1, timeNow) ? 'activeCl' : ''" >{{ i.firstRow }}</td>
                                 </tr>
                                 <tr class="disciplineNameText " v-else> 
                                     <td class="icon"><font-awesome-icon icon="bookmark"  class="fa-1x"/></td>
-                                    <td class="text" :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, i.class - 1, timeNow.value) ? 'activeCl' : ''" >Пусто</td>
+                                    <td class="text" :class="data.day == dayOfWeek && dayOfWeek == nextDay[0] && week == nextDay[1] && currentClass.isCurrent(timesJson, i.class - 1, timeNow) ? 'activeCl' : ''" >Пусто</td>
                                 </tr>
                             </tr>
                             
-                            <tr class="disciplinelecturer" v-if="Array.isArray(i.secondRow) && props.type == 'au' || props.type == 'st' " >  
+                            <tr class="disciplinelecturer" v-if="Array.isArray(i.secondRow) && type == 'au' || type == 'st' " >  
                                 <div v-for="(g, ind) in i.secondRow" :key="ind" >
                                     <a v-if="lecturerClickable(g)" :href="'/lecturers/' + encodeURI(g.split(' ')[0] + ' ' + g.split(' ')[1] + ' ' + g.split(' ')[2]) + '/schedule'">
                                         <div v-if="g !== '-' && g != '' && g !== '.'">
@@ -134,7 +120,7 @@
                                     </div>
                                 </div>
                             </tr>
-                            <tr class="disciplinelecturer" v-else-if="Array.isArray(i.secondRow) && props.type != 'au'">  
+                            <tr class="disciplinelecturer" v-else-if="Array.isArray(i.secondRow) && type != 'au'">  
                                 <div v-for="(g, ind) in i.secondRow" :key="ind" >
                                     <div v-if="g !== '-' && g != '' && g !== '.'">
                                         <td class="icon"><font-awesome-icon icon="user-group"  class="fa-1x"/></td>
@@ -151,7 +137,7 @@
                                 <td class="text">Пусто</td>
                             </tr>
 
-                            <tr class="disciplineAuditorium" v-if="i.thirdRow !== '-' && i.thirdRow != '' && i.thirdRow !== '.' && Array.isArray(i.thirdRow) && props.type == 'au'"> 
+                            <tr class="disciplineAuditorium" v-if="i.thirdRow !== '-' && i.thirdRow != '' && i.thirdRow !== '.' && Array.isArray(i.thirdRow) && type == 'au'"> 
                                 <div v-for="(g, ind) in i.thirdRow" :key="ind">
                                     <td class="icon"><font-awesome-icon icon="user-group" class="fa-1x"/></td>
                                     <td class="text">{{ g }}</td> 
