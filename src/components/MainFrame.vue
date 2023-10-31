@@ -178,8 +178,11 @@
   }
   function buttons(val)
   {
+    if (currentWeek.value != val)
+    {
+      window.scrollTo({top: 0});
+    }
     currentWeek.value = val
-    window.scrollTo({top: 0});
   }
   import { useRouter } from 'vue-router'
   const router = useRouter()

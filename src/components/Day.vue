@@ -174,6 +174,14 @@
     {
         text-decoration: none;
     }
+    a:hover
+    {
+        color: #adadad;
+    }
+    a:active
+    {
+        color: #797979;
+    }
 
     .icon
     {

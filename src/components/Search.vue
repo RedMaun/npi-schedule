@@ -102,7 +102,7 @@
     #buttonsCont
     {
         width: 32rem;
-        height: 10rem;
+        height: fit-content;
         border-radius: 0.5rem;
         margin: auto;
         position: absolute;
@@ -110,6 +110,7 @@
         right: 0; 
         margin-left: auto; 
         margin-right: auto; 
+        background-color: #44475a;
 
     }
     #search
@@ -177,10 +178,7 @@
         }
         #buttonsCont
         {
-            background-color: #44475a;
             width: 96%;
-            overflow-y:scroll;
-            height: 15rem;
         }
         #search
         {

@@ -59,6 +59,9 @@
 b
 {
     font-size: 15rem;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }
 p
 {
@@ -90,10 +93,6 @@ p
     background-color: #6a6e85;
 }
 
-#home:active
-{
-    border: 0.1rem solid #50fa7b;
-}
 #emoji
 {
     width: 3.5rem;
