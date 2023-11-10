@@ -67,7 +67,6 @@ let exports = {};
 
 function getClass(timesJson, start)
 {
-    console.log(timesJson, start)
     for (let i = 1; i <= Object.keys(timesJson).length; i++)
     {
         if(timesJson[String(i)].start == start)
