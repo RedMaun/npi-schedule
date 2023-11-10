@@ -6,8 +6,6 @@
     import { ref, onBeforeMount } from 'vue';
     import finalsDataRefactoring from '../utils/finalsDataRefactoring'
     import { useTimesStore } from "../stores/times";
-    import { useCurrentWeekNumberStore } from "../stores/weekNumber";
-    import { useColorsStore } from "../stores/colors";
     import { useRoute } from 'vue-router'
 
     const props = defineProps({
@@ -44,12 +42,6 @@
         const timeSlotsStore = useTimesStore();
         await timeSlotsStore.getTimeSlots();
         const timesJson = timeSlotsStore.timesJson
-
-        const currentWeekNumberStore = useCurrentWeekNumberStore();
-        await currentWeekNumberStore.getCurrentWeekNumber();
-
-        const colorsStore = useColorsStore();
-        await colorsStore.getColors();
 
         localStorage.setItem("url", [window.location.pathname, 'Сессия ' + group.value]);
         if ( (JSON.parse(JSON.stringify(urlJson.value)).length == 0))

@@ -6,9 +6,7 @@ import axios from "axios";
 import dataRefactoring from "../utils/dataRefactoring";
 import { useRoute } from "vue-router";
 import { ref, onBeforeMount } from "vue";
-import { useTimesStore } from "../stores/times";
-import { useCurrentWeekNumberStore } from "../stores/weekNumber";
-import { useColorsStore } from "../stores/colors";
+
 
 const props = defineProps({
   sort: Object,
@@ -36,14 +34,6 @@ onBeforeMount(async () => {
   }
   localStorage.setItem("url", [window.location.pathname, groupName.value]);
   weeks.value = dataRefactoring.func(urlJson.value, props.sort);
-  const timeSlotsStore = useTimesStore();
-  await timeSlotsStore.getTimeSlots();
-
-  const currentWeekNumberStore = useCurrentWeekNumberStore();
-  await currentWeekNumberStore.getCurrentWeekNumber();
-
-  const colorsStore = useColorsStore();
-  await colorsStore.getColors();
 });
 </script>
 

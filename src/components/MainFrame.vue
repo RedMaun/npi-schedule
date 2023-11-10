@@ -19,6 +19,7 @@ const props = defineProps({
 
 const timeSlotsStore = useTimesStore();
 const timeStore = useTimeStore();
+await timeSlotsStore.getTimeSlots();
 const times = timeSlotsStore.timeSlots;
 const currentWeekNumberStore = useCurrentWeekNumberStore();
 const colorsStore = useColorsStore();
@@ -154,7 +155,7 @@ function adaptiveTypes(weeks, currentWeek) {
   }
   return Array.from(new Set(types));
 }
-
+await colorsStore.getColors();
 let colors = colorsStore.colors;
 
 colors = {
@@ -192,6 +193,8 @@ if (weeks[currentWeek.value - 1])
 {
   areClassesExists = weeks[currentWeek.value - 1].length != 0
 }
+console.log(adaptiveTypes(weeks, currentWeek.value))
+console.log(colors)
 </script>
 
 <template>
