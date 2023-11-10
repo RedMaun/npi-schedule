@@ -36,25 +36,38 @@ function classMerge(data) {
 }
 
 function getRidOfEmptyClasses(weeks) {
+  let weeksCopy = []
   for (let week of weeks) {
+    let weekCopy = [...week]
     for (let g in week) {
       let k = 0;
-      let weekCopy = [...week[g].classes];
+      let weekClassesCopy = [...week[g].classes];
       for (let i of week[g].classes) {
         if (
           i.discipline === "-" &&
           i.lecturer === "-" &&
           i.auditorium === "-"
         ) {
-          weekCopy.splice(k, 1);
+          weekClassesCopy.splice(k, 1);
         } else {
           k++;
         }
       }
-      week[g].classes = [...weekCopy];
+      if (weekClassesCopy.length === 0)
+      {
+        delete weekCopy[g]
+      }
+      else
+      {
+        weekCopy[g].classes = [...weekClassesCopy];
+      }
     }
+    weekCopy = weekCopy.filter(function( element ) {
+      return element !== undefined;
+    });
+    weeksCopy.push(weekCopy)
   }
-  return weeks;
+  return weeksCopy;
 }
 
 function standart(data, sort) {

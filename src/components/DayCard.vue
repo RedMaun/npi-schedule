@@ -14,6 +14,12 @@ const props = defineProps({
 });
 
 const { day, classes } = props.data;
+let date
+if (props.data.date)
+{
+  date = props.data.date.split("-").reverse().join(".");
+}
+
 const isCurrentDay =
   props.nextDay[0] === day && props.currentWeek === props.nextDay[1];
 const activeClass = ref(null);
@@ -36,7 +42,7 @@ onMounted(() => {
       <span v-if="type !== 'st-fin' && type !== 'pr-fin'">{{
         WEEK_DAYS[day]
       }}</span>
-      <span v-else>{{ data.date.split("-").reverse().join(".") }}</span>
+      <span v-else>{{ date }}</span>
     </header>
     <main :class="!isCurrentDay ? 'day__content' : 'day__content_isCurrentDay'">
       <div class="day_info">
