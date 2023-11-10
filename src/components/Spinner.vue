@@ -24,16 +24,6 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  /* left: 0; 
-        right: 0; 
-        top: 0;
-        bottom: 0;
-        margin-left: auto; 
-        margin-right: auto; 
-        margin-top: auto; 
-        margin-bottom: auto;  */
-
-  /* transform: translate3d(-50%, -50%, 0); */
   will-change: transform;
 }
 </style>
