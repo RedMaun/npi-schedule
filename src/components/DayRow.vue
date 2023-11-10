@@ -119,7 +119,7 @@ a:active {
   flex-direction: row;
 }
 
-.day-row:nth-child(even) {
+.day-row:nth-child(odd) {
   background-color: #2b2e3b;
 }
 .day-row__content,
