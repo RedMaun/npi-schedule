@@ -34,6 +34,7 @@ onMounted(() => {
 
 let errorMessage = props.errorMessage;
 const weeks = props.weeks;
+console.log(weeks)
 if ((weeks[0] || weeks[1]) && weeks[0].length == 0 && weeks[1].length == 0) {
   if (errorMessage != undefined) errorMessage += " Нет расписания!";
   else errorMessage = "Нет расписания!";
@@ -186,6 +187,11 @@ const dragHandler = (dragState) => {
     buttons(2);
   }
 };
+let areClassesExists
+if (weeks[currentWeek.value - 1])
+{
+  areClassesExists = weeks[currentWeek.value - 1].length != 0
+}
 </script>
 
 <template>
@@ -263,7 +269,7 @@ const dragHandler = (dragState) => {
       <div class="info-cont" v-else style="margin-top: 1rem"></div>
       <div class="main-frame">
         <div
-          v-if="weeks[currentWeek - 1] && weeks[currentWeek - 1].length != 0"
+          v-if="areClassesExists"
         >
           <DayCard
             v-for="day in currentWeek == 1 ? weeks[0] : weeks[1]"
@@ -291,7 +297,7 @@ const dragHandler = (dragState) => {
       </div>
       <div
         class="discipline-types"
-        v-if="weeks[currentWeek - 1] && weeks[currentWeek - 1].length != 0"
+        v-if="areClassesExists"
       >
         <div
           v-for="types in adaptiveTypes(weeks, currentWeek)"

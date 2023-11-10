@@ -50,6 +50,8 @@ const isAuditorium = computed(() =>
   props.pageType === "st" || props.pageType === "pr" ? "compass" : "user-group"
 );
 const bookmarkColor = props.colors[type].color;
+const startOfClass = props.times[classNum - 1][0];
+const endOfClass = props.times[classNum - 1][1];
 </script>
 
 <template>
@@ -58,8 +60,8 @@ const bookmarkColor = props.colors[type].color;
       <span>{{ classNum }}</span>
     </div>
     <div class="day-row__time">
-      <span class="day-row__start">{{ times[classNum - 1][0] }}</span>
-      <span class="day-row__end">{{ times[classNum - 1][1] }}</span>
+      <span class="day-row__start">{{ startOfClass }}</span>
+      <span class="day-row__end">{{ endOfClass }}</span>
     </div>
     <div class="day-row__content">
       <div class="box">
