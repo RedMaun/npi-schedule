@@ -16,10 +16,9 @@ const props = defineProps({
 const { day, classes } = props.data;
 let date
 if (props.data.date)
-{
+{isCurrentDay
   date = props.data.date.split("-").reverse().join(".");
 }
-
 const isCurrentDay =
   props.nextDay[0] === day && props.currentWeek === props.nextDay[1];
 const activeClass = ref(null);
@@ -57,6 +56,7 @@ onMounted(() => {
         :colors="colors"
         :times="times"
         :data="classItem"
+        :day="day"
       />
     </main>
   </article>
@@ -104,4 +104,14 @@ onMounted(() => {
 .day__content_isCurrentDay {
   border: 0.1rem solid #ff5555;
 }
+@media only screen and (max-width: 560px) {
+.day
+{
+    width: 96%;
+}
+.dayClass
+{
+    width: 96%;
+}
+} 
 </style>

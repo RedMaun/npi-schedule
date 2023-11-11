@@ -11,6 +11,7 @@ const props = defineProps({
   pageType: String,
   index: Number,
   isCurrentDay: Boolean,
+  day: Number
 });
 
 const fullNameChecker = (name) => {
@@ -41,8 +42,10 @@ const classNum = props.data.class;
 const timeStore = useTimeStore();
 timeStore.getTime;
 const time = timeStore.time;
+let todaysDayOfWeek = (new Date()).getDay();
+  todaysDayOfWeek = todaysDayOfWeek == 0 ? 7 : todaysDayOfWeek;
 const isCurrent =
-  currentClass.isCurrent(props.times, classNum - 1, time) && props.isCurrentDay;
+  currentClass.isCurrent(props.times, classNum - 1, time) && props.isCurrentDay && props.day === todaysDayOfWeek - 1;
 const isGroup = computed(() =>
   props.pageType === "pr" ? "user-group" : "user"
 );
