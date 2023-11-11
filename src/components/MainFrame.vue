@@ -417,7 +417,7 @@ console.log(colors)
   .print span {
     display: none;
   }
-  .button {
+  .header__button {
     padding: 0.5rem;
   }
 
@@ -496,7 +496,7 @@ console.log(colors)
     margin-top: 0.5rem;
     height: 2rem;
   }
-  .button {
+  .header__button {
     height: fit-content;
     font-size: x-small;
     padding: 0.4rem;

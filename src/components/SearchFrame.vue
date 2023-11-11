@@ -37,7 +37,7 @@ const lastUpdated = (await axios.get(LAST_UPDATED_URL)).data
   </div>
 
   <Search class="search-cont "/>
-  <Table class="table"></Table>
+  <Table></Table>
   <div class="last-visited" v-if="lastName != ''">
     Последнее просмотренное:
     <router-link :to="lastUrl" v-if="lastName">{{ lastName }}</router-link>
@@ -125,6 +125,13 @@ const lastUpdated = (await axios.get(LAST_UPDATED_URL)).data
   transform: translateY(-50%);
   left: 1rem;
 }
+.table-cont {
+  width: 30rem;
+  border-spacing: 0;
+  border-radius: 0.8rem;
+  margin: auto;
+  margin-top: 4rem;
+}
 .header__logo {
   height: 3rem;
   width: 4.5rem;
@@ -164,7 +171,7 @@ const lastUpdated = (await axios.get(LAST_UPDATED_URL)).data
   .header__title #two {
     display: block;
   }
-  .table {
+  .table-cont {
     width: 90%;
   }
 }

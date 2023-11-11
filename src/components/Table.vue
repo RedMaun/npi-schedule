@@ -63,9 +63,9 @@ for (let i in timesJson) {
   background: #3d3f51;
 }
 .table {
+  width: 100%;
   color: #f8f8f2;
   border: 0.1rem solid #44475a;
-  width: 100%;
   background-color: #282a36;
   text-align: left;
   border-radius: 0.8rem;
@@ -86,13 +86,6 @@ for (let i in timesJson) {
 }
 .table__head-cell:last-child {
   border-top-right-radius: 0.8rem;
-}
-.table-cont {
-  border-spacing: 0;
-  border-radius: 0.8rem;
-  margin: auto;
-  margin-top: 4rem;
-  width: 30rem;
 }
 @media only screen and (max-width: 600px) {
   * {
