@@ -65,7 +65,7 @@ const routes = [
     path: "/lecturers/:lecturer/schedule",
     component: Schedule,
     props: {
-      sort: ["discipline", "groups", "auditorium"],
+      sort: ["discipline", "auditorium", "groups"],
       url: "https://schedule.npi-tu.ru/api/v2/lecturers/$lecturer/schedule",
       type: "pr",
       name: "lecturer",
