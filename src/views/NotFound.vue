@@ -1,20 +1,14 @@
-<script>
-import { reactive } from "vue";
+<script setup>
+import { ref } from "vue";
 import emojis from "../utils/emojis";
-export default {
-  data() {
-    return {
-      emoji: reactive({ value: "😭" }),
-    };
-  },
-  methods: {
-    emojiRandom() {
-      const num = Math.floor(Math.random() * emojis.length);
-      this.emoji.value = emojis[num];
-    },
-  },
-};
+let emoji = ref("😭");
+
+function emojiRandom() {
+  const num = Math.floor(Math.random() * emojis.length);
+  emoji.value = emojis[num];
+}
 </script>
+
 <template>
   <div class="not-found">
     <b class="not-found__error-text">404</b>
@@ -22,7 +16,7 @@ export default {
       Не найдено
       <button @click="emojiRandom()" class="not-found__emoji">
         <transition name="base" mode="out-in">
-          <span reactive="emoji" :key="emoji.value">{{ emoji.value }}</span>
+          <span :key="emoji">{{ emoji }}</span>
         </transition>
       </button>
     </p>

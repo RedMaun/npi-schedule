@@ -35,7 +35,6 @@ onMounted(() => {
 
 let errorMessage = props.errorMessage;
 const weeks = props.weeks;
-console.log(weeks)
 if ((weeks[0] || weeks[1]) && weeks[0].length == 0 && weeks[1].length == 0) {
   if (errorMessage != undefined) errorMessage += " Нет расписания!";
   else errorMessage = "Нет расписания!";
@@ -188,13 +187,10 @@ const dragHandler = (dragState) => {
     buttons(2);
   }
 };
-let areClassesExists
-if (weeks[currentWeek.value - 1])
-{
-  areClassesExists = weeks[currentWeek.value - 1].length != 0
+let areClassesExists;
+if (weeks[currentWeek.value - 1]) {
+  areClassesExists = weeks[currentWeek.value - 1].length != 0;
 }
-console.log(adaptiveTypes(weeks, currentWeek.value))
-console.log(colors)
 </script>
 
 <template>
@@ -271,9 +267,7 @@ console.log(colors)
       </div>
       <div class="info-cont" v-else style="margin-top: 1rem"></div>
       <div class="main-frame">
-        <div
-          v-if="areClassesExists"
-        >
+        <div v-if="areClassesExists">
           <DayCard
             v-for="day in currentWeek == 1 ? weeks[0] : weeks[1]"
             :key="currentWeek + timeNow"
@@ -286,22 +280,9 @@ console.log(colors)
             :nextDay="nextDay"
           />
         </div>
-        <div
-          :style="{
-            width: 'fit-content',
-            margin: 'auto',
-            'margin-top': '2rem',
-            'margin-bottom': '2rem',
-          }"
-          v-else
-        >
-          Нет расписания!
-        </div>
+        <div class="no-schedule" v-else>Нет расписания!</div>
       </div>
-      <div
-        class="discipline-types"
-        v-if="areClassesExists"
-      >
+      <div class="discipline-types" v-if="areClassesExists">
         <div
           v-for="types in adaptiveTypes(weeks, currentWeek)"
           class="discipline-types__type"
@@ -341,6 +322,12 @@ console.log(colors)
   width: fit-content;
   cursor: pointer;
   margin-right: 0;
+}
+.no-schedule {
+  width: fit-content;
+  margin: auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 .header__logo img {
   height: 3rem;
