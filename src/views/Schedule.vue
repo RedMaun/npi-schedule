@@ -7,7 +7,6 @@ import dataRefactoring from "../utils/dataRefactoring";
 import { useRoute } from "vue-router";
 import { ref, onBeforeMount } from "vue";
 
-
 const props = defineProps({
   sort: Object,
   url: String,

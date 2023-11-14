@@ -10,11 +10,11 @@ export const useTimesStore = defineStore("times", {
   actions: {
     async getTimeSlots() {
       this.timesJson = (await axios.get(TIME_SLOTS_URL)).data;
-      let timesJsonArray = Object.entries(this.timesJson)
+      let timesJsonArray = Object.entries(this.timesJson);
 
-      timesJsonArray.map(item => {
-        this.timeSlots.push(Object.values(Object.values(item)[1]))
-      })
+      timesJsonArray.map((item) => {
+        this.timeSlots.push(Object.values(Object.values(item)[1]));
+      });
     },
   },
 });

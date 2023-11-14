@@ -1,18 +1,18 @@
 <script setup>
-import { reactive } from "vue";
+import { ref } from "vue";
 import axios from "axios";
 import { GROUPS_URL, LECTURERS_URL, AUDITORIUMS_URL } from "../constants";
-const inputSearch = reactive({ value: [] });
+const inputSearch = ref([]);
 
 async function getData(val) {
-  if (val == "") {
+  if (val === "") {
     inputSearch.value = [];
   } else {
-    let respGr = (await axios.get(GROUPS_URL + '/' + encodeURI(val))).data
+    let respGr = (await axios.get(GROUPS_URL + "/" + encodeURI(val))).data;
     respGr = Object.entries(respGr);
-    let respLe = (await axios.get(LECTURERS_URL + '/' + encodeURI(val))).data
+    let respLe = (await axios.get(LECTURERS_URL + "/" + encodeURI(val))).data;
     respLe = respLe;
-    let respAu = (await axios.get(AUDITORIUMS_URL + '/' + encodeURI(val))).data
+    let respAu = (await axios.get(AUDITORIUMS_URL + "/" + encodeURI(val))).data;
     let respAuTemp = Object.entries(respAu);
     respAu = [];
     for (let i of respAuTemp) {
@@ -35,7 +35,6 @@ async function getData(val) {
         autocomplete="off"
         class="search-cont__search"
         v-model="message"
-        reactive="inputSearch"
         :placeholder="'Поиск'"
         @input="getData(message)"
       />
@@ -45,15 +44,14 @@ async function getData(val) {
     </div>
     <div
       class="search-cont__buttons-cont"
-      reactive="inputSearch"
       v-if="
-        (inputSearch.value[0] && inputSearch.value[0] != '') ||
-        (inputSearch.value[1] && inputSearch.value[1] != '') ||
-        (inputSearch.value[2] && inputSearch.value[2] != '')
+        (inputSearch[0] && inputSearch[0] != '') ||
+        (inputSearch[1] && inputSearch[1] != '') ||
+        (inputSearch[2] && inputSearch[2] != '')
       "
     >
-      <div reactive="inputSearch" v-if="inputSearch.value[0]">
-        <div v-for="(i, index) in inputSearch.value[0]" :key="index">
+      <div v-if="inputSearch[0]">
+        <div v-for="(i, index) in inputSearch[0]" :key="index">
           <router-link
             :to="
               '/faculties/' +
@@ -73,8 +71,8 @@ async function getData(val) {
         </div>
       </div>
 
-      <div reactive="inputSearch" v-if="inputSearch.value[1]">
-        <div v-for="(i, index) in inputSearch.value[1]" :key="index">
+      <div v-if="inputSearch[1]">
+        <div v-for="(i, index) in inputSearch[1]" :key="index">
           <router-link :to="'/lecturers/' + i + '/schedule'">
             <button class="search-cont__group">
               {{ i }}
@@ -84,8 +82,8 @@ async function getData(val) {
         </div>
       </div>
 
-      <div reactive="inputSearch" v-if="inputSearch.value[2]">
-        <div v-for="(i, index) in inputSearch.value[2]" :key="index">
+      <div v-if="inputSearch[2]">
+        <div v-for="(i, index) in inputSearch[2]" :key="index">
           <router-link :to="'/auditoriums/' + i + '/schedule'">
             <button class="search-cont__group">
               {{ i }}

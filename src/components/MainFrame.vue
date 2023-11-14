@@ -1,12 +1,11 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted, onUpdated } from "vue";
 import DayCard from "./DayCard.vue";
 import Pdf from "./Pdf.vue";
 import { useRouter } from "vue-router";
 import { useTimesStore } from "../stores/times";
 import { useCurrentWeekNumberStore } from "../stores/weekNumber";
 import { useColorsStore } from "../stores/colors";
-import { useTimeStore } from "../stores/currentTime";
 import { COLOR_DESIGN, MONTHS } from "../constants";
 
 const props = defineProps({
@@ -18,25 +17,20 @@ const props = defineProps({
 });
 
 const timeSlotsStore = useTimesStore();
-const timeStore = useTimeStore();
 await timeSlotsStore.getTimeSlots();
 const times = timeSlotsStore.timeSlots;
 const currentWeekNumberStore = useCurrentWeekNumberStore();
 const colorsStore = useColorsStore();
+const router = useRouter();
 
-timeStore.getTime;
-const timeNow = ref(timeStore.time);
-onMounted(() => {
-  setInterval(() => {
-    timeStore.getTime;
-    timeNow.value = timeStore.time;
-  }, 60000);
-});
+const timeNow = ref(new Date().getHours() * 60 + new Date().getMinutes());
+setInterval(() => {
+  timeNow.value = new Date().getHours() * 60 + new Date().getMinutes();
+}, 60000);
 
 let errorMessage = props.errorMessage;
 const weeks = props.weeks;
-console.log(weeks)
-if ((weeks[0] || weeks[1]) && weeks[0].length == 0 && weeks[1].length == 0) {
+if ((weeks[0] || weeks[1]) && weeks[0].length === 0 && weeks[1].length === 0) {
   if (errorMessage != undefined) errorMessage += " Нет расписания!";
   else errorMessage = "Нет расписания!";
 }
@@ -45,7 +39,7 @@ let currentWeek = ref(null),
   nextDay,
   currentDate = new Date(),
   dayOfWeek = currentDate.getDay();
-dayOfWeek = dayOfWeek == 0 ? 7 : dayOfWeek;
+dayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek;
 
 function currentWeekIncrement() {
   currentWeek.value = currentWeek.value === 1 ? 2 : 1;
@@ -84,7 +78,7 @@ function getNextDay(dayOfWeek) {
   [currentDay, dayOfWeek] = getNextDayAndWeek(dayOfWeek);
 
   let todaysDayOfWeek = currentDate.getDay();
-  todaysDayOfWeek = todaysDayOfWeek == 0 ? 7 : todaysDayOfWeek;
+  todaysDayOfWeek = todaysDayOfWeek === 0 ? 7 : todaysDayOfWeek;
 
   if (currentDay.day + 1 !== todaysDayOfWeek) {
     return dayOfWeek;
@@ -102,7 +96,7 @@ function getNextDay(dayOfWeek) {
   }
 }
 
-if (props.type == "st-fin" || props.type == "pr-fin" || errorMessage) {
+if (props.type === "st-fin" || props.type === "pr-fin" || errorMessage) {
   currentWeek.value = 1;
   nextDay = [0, 1];
 } else {
@@ -169,7 +163,6 @@ function buttons(val) {
   }
   currentWeek.value = val;
 }
-const router = useRouter();
 function sessionButton() {
   router.push({
     path: window.location.pathname.split("/schedule")[0] + "/finals-schedule",
@@ -181,20 +174,49 @@ function buttonBack() {
   });
 }
 const dragHandler = (dragState) => {
-  if (dragState.swipe[0] == 1 && dragState.swipe[1] == 0) {
+  if (dragState.swipe[0] === 1 && dragState.swipe[1] === 0) {
     buttons(1);
   }
-  if (dragState.swipe[0] == -1 && dragState.swipe[1] == 0) {
+  if (dragState.swipe[0] === -1 && dragState.swipe[1] === 0) {
     buttons(2);
   }
 };
-let areClassesExists
-if (weeks[currentWeek.value - 1])
-{
-  areClassesExists = weeks[currentWeek.value - 1].length != 0
+let areClassesExists;
+if (weeks[currentWeek.value - 1]) {
+  areClassesExists = weeks[currentWeek.value - 1].length != 0;
 }
-console.log(adaptiveTypes(weeks, currentWeek.value))
-console.log(colors)
+
+const week = computed(() => {
+  return weeks[currentWeek.value - 1];
+});
+
+let currentDay;
+const getCurrentDay = () => {
+  const days = Array.from(document.getElementsByClassName("day"));
+  days.map((day) => {
+    if (day.getAttribute("isCurrentDay") === "true") {
+      currentDay = day;
+    }
+  });
+};
+
+onMounted(() => {
+  getCurrentDay();
+});
+onUpdated(() => {
+  getCurrentDay();
+});
+
+const scrollToCurrentDay = () => {
+  let scrollBefore = window.scrollY;
+  currentDay.scrollIntoView({ block: "start" });
+  let scrollAfter = window.scrollY;
+  if (scrollAfter - scrollBefore !== 0) {
+    let headerHeight =
+      document.getElementsByClassName("header")[0].offsetHeight;
+    window.scroll(0, window.scrollY - headerHeight - 10);
+  }
+};
 </script>
 
 <template>
@@ -205,12 +227,11 @@ console.log(colors)
       </div>
       <div class="header__groupName">
         {{ groupName }}
-        <span v-if="type == 'st-fin' && type == 'pr-fin'">Сессия</span>
+        <span v-if="type === 'st-fin' && type === 'pr-fin'">Сессия</span>
       </div>
       <div class="header__row">
         <button
-          v-if="type == 'st-fin' || type == 'pr-fin'"
-          :style="{ 'margin-right': '0.5rem' }"
+          v-if="type === 'st-fin' || type === 'pr-fin'"
           class="header__button"
           id="back"
           @click="buttonBack()"
@@ -223,7 +244,7 @@ console.log(colors)
           id="firstWeek"
           @click="buttons(1)"
           :style="{
-            background: currentWeek == 1 ? '#ff5555' : '#6272a4',
+            background: currentWeek === 1 ? '#ff5555' : '#6272a4',
           }"
         >
           1 Неделя
@@ -234,7 +255,7 @@ console.log(colors)
           id="secondWeek"
           @click="buttons(2)"
           :style="{
-            background: currentWeek == 2 ? '#ff5555' : '#6272a4',
+            background: currentWeek === 2 ? '#ff5555' : '#6272a4',
           }"
         >
           2 Неделя
@@ -261,7 +282,7 @@ console.log(colors)
       {{ errorMessage }}
     </div>
     <div v-else>
-      <div class="info-cont" v-if="type == 'st'">
+      <div class="info-cont" v-if="type === 'st'">
         <div class="info-cont__semester-text">
           <b>Семестр:</b> {{ semesterStart + " — " + semesterEnd }}
         </div>
@@ -270,13 +291,15 @@ console.log(colors)
         </div>
       </div>
       <div class="info-cont" v-else style="margin-top: 1rem"></div>
+      <button
+        class="scroll-to-current-day"
+        @click="scrollToCurrentDay"
+      ></button>
       <div class="main-frame">
-        <div
-          v-if="areClassesExists"
-        >
+        <div v-if="areClassesExists">
           <DayCard
-            v-for="day in currentWeek == 1 ? weeks[0] : weeks[1]"
-            :key="currentWeek + timeNow"
+            v-for="day in week"
+            :key="currentWeek"
             :colors="colors"
             :timeNow="timeNow"
             :type="type"
@@ -286,22 +309,9 @@ console.log(colors)
             :nextDay="nextDay"
           />
         </div>
-        <div
-          :style="{
-            width: 'fit-content',
-            margin: 'auto',
-            'margin-top': '2rem',
-            'margin-bottom': '2rem',
-          }"
-          v-else
-        >
-          Нет расписания!
-        </div>
+        <div class="no-schedule" v-else>Нет расписания!</div>
       </div>
-      <div
-        class="discipline-types"
-        v-if="areClassesExists"
-      >
+      <div class="discipline-types" v-if="areClassesExists">
         <div
           v-for="types in adaptiveTypes(weeks, currentWeek)"
           class="discipline-types__type"
@@ -330,7 +340,20 @@ console.log(colors)
   align-items: center;
   justify-content: center;
 }
-
+.scroll-to-current-day {
+  position: fixed;
+  width: 10rem;
+  background-color: transparent;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  border: none;
+  transition: all 0.2s ease-out;
+  cursor: pointer;
+}
+.scroll-to-current-day:hover {
+  background-color: #f8f8f210;
+}
 .header__groupName {
   margin-left: 1rem;
   font-weight: 700;
@@ -341,6 +364,12 @@ console.log(colors)
   width: fit-content;
   cursor: pointer;
   margin-right: 0;
+}
+.no-schedule {
+  width: fit-content;
+  margin: auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 .header__logo img {
   height: 3rem;
@@ -412,7 +441,11 @@ console.log(colors)
   margin: auto;
   margin-top: 10rem;
 }
-
+@media only screen and (max-width: 1120px) {
+  .scroll-to-current-day {
+    display: none;
+  }
+}
 @media only screen and (max-width: 1000px) {
   .print span {
     display: none;

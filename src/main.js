@@ -3,7 +3,7 @@ import "./assets/main.css";
 import { createApp, h } from "vue/dist/vue.esm-bundler";
 import { createRouter, createWebHistory } from "vue-router";
 import { PDFPlugin } from "vue3-pdfmake";
-import { GesturePlugin } from '@vueuse/gesture'
+import { GesturePlugin } from "@vueuse/gesture";
 import SearchWrapper from "./views/SearchWrapper.vue";
 import NotFound from "./views/NotFound.vue";
 import Schedule from "./views/Schedule.vue";
@@ -13,8 +13,8 @@ import App from "./App.vue";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-import { createPinia } from 'pinia'
-const pinia = createPinia()
+import { createPinia } from "pinia";
+const pinia = createPinia();
 
 import {
   faBookmark,
@@ -23,21 +23,32 @@ import {
   faPrint,
   faUserGroup,
   faSearch,
-  faCircleInfo
+  faCircleInfo,
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./registerServiceWorker";
 
-library.add([faBookmark, faUser, faCompass, faPrint, faUserGroup, faSearch, faCircleInfo]);
+library.add([
+  faBookmark,
+  faUser,
+  faCompass,
+  faPrint,
+  faUserGroup,
+  faSearch,
+  faCircleInfo,
+]);
 const routes = [
   { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
   {
     path: "/pwa",
-    redirect: to => {
-      let lastUrl = localStorage.getItem('url') === null ? '/' : localStorage.getItem('url').split(',')[0]
-      return { path: lastUrl }
+    redirect: (to) => {
+      let lastUrl =
+        localStorage.getItem("url") === null
+          ? "/"
+          : localStorage.getItem("url").split(",")[0];
+      return { path: lastUrl };
     },
-    component: SearchWrapper
+    component: SearchWrapper,
   },
   { path: "/", component: SearchWrapper },
   {
@@ -94,7 +105,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  mode: 'history',
+  mode: "history",
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });

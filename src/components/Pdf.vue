@@ -17,24 +17,24 @@ let times = [];
 for (let i = 1; i <= Object.keys(timesJson).length; i++) {
   times.push(timesJson[String(i)].start + "\n" + timesJson[String(i)].end);
 }
-let pdfWeeks = [[
-  [times[0], "", "", "", "", "", ""],
-  [times[1], "", "", "", "", "", ""],
-  [times[2], "", "", "", "", "", ""],
-  [times[3], "", "", "", "", "", ""],
-  [times[4], "", "", "", "", "", ""],
-  [times[5], "", "", "", "", "", ""],
-],
-[
-  [times[0], "", "", "", "", "", ""],
-  [times[1], "", "", "", "", "", ""],
-  [times[2], "", "", "", "", "", ""],
-  [times[3], "", "", "", "", "", ""],
-  [times[4], "", "", "", "", "", ""],
-  [times[5], "", "", "", "", "", ""],
-]
+let pdfWeeks = [
+  [
+    [times[0], "", "", "", "", "", ""],
+    [times[1], "", "", "", "", "", ""],
+    [times[2], "", "", "", "", "", ""],
+    [times[3], "", "", "", "", "", ""],
+    [times[4], "", "", "", "", "", ""],
+    [times[5], "", "", "", "", "", ""],
+  ],
+  [
+    [times[0], "", "", "", "", "", ""],
+    [times[1], "", "", "", "", "", ""],
+    [times[2], "", "", "", "", "", ""],
+    [times[3], "", "", "", "", "", ""],
+    [times[4], "", "", "", "", "", ""],
+    [times[5], "", "", "", "", "", ""],
+  ],
 ];
-
 
 const weeks = props.weeks;
 const info = props.info;
@@ -129,11 +129,11 @@ function deleteSpace(arr) {
   for (let i = 0; i < arr.length; i++) {
     count = 0;
     for (let k = 1; k < arr[i].length; k++) {
-      if (arr[i][k] == "") {
+      if (arr[i][k] === "") {
         count++;
       }
     }
-    if (count == 6) {
+    if (count === 6) {
       arrCopy[i] = undefined;
     }
   }
@@ -143,8 +143,7 @@ function deleteSpace(arr) {
   return arrCopy;
 }
 
-for (let i = 0; i < 2; i++)
-{
+for (let i = 0; i < 2; i++) {
   if (props.weeks[0] && props.weeks[0].length != 0) {
     for (let z = 0; z < weeks[0].length; z++) {
       for (let x = 0; x < weeks[0][z].classes.length; x++) {
@@ -162,7 +161,7 @@ for (let i = 0; i < 2; i++)
       }
     }
   }
-  pdfWeeks[i] = deleteSpace(pdfWeeks[i])
+  pdfWeeks[i] = deleteSpace(pdfWeeks[i]);
 }
 // let typesPdf = []
 // if (usedTypes && usedTypes.length != 0)

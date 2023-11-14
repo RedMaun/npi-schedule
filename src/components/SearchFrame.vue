@@ -2,7 +2,12 @@
 <script setup>
 import axios from "axios";
 import { defineAsyncComponent } from "vue";
-import { INF_LINES_URL, LAST_UPDATED_URL } from "../constants";
+import {
+  INF_LINES_URL,
+  LAST_UPDATED_URL,
+  TITLE_FULL,
+  TITLE_SMALL,
+} from "../constants";
 import { useCurrentWeekNumberStore } from "../stores/weekNumber";
 
 const Search = defineAsyncComponent(() => import("./Search.vue"));
@@ -16,27 +21,28 @@ if ((lastUrl = localStorage.getItem("url"))) {
   lastUrl = localStorage.getItem("url").split(",")[0];
   lastName = localStorage.getItem("url").split(",")[1];
 }
-const currentWeek = currentWeekNumberStore.currentWeekNumber
-const inf = (await axios.get(INF_LINES_URL)).data
-const lastUpdated = (await axios.get(LAST_UPDATED_URL)).data
+const currentWeek = currentWeekNumberStore.currentWeekNumber;
+const inf = (await axios.get(INF_LINES_URL)).data;
+const lastUpdated = (await axios.get(LAST_UPDATED_URL)).data;
+const lastUpdatedText = lastUpdated.split("-").reverse().join(".");
 </script>
 
 <template>
   <div class="header">
     <div class="header__logo"><img src="/logo.png" /></div>
     <div class="header__title">
-      <span id="one">ФГБОУ ВО "ЮРГПУ (НПИ) имени М.И.Платова". Расписание</span>
-      <span id="two">ЮРГПУ НПИ Расписание</span>
+      <span id="one">{{ TITLE_FULL }}</span>
+      <span id="two">{{ TITLE_SMALL }}</span>
     </div>
     <div class="header__week">{{ currentWeek }} Неделя</div>
   </div>
 
   <div class="message">
     {{ inf.run[0] }}
-    <br />Обновлено: <b>{{ lastUpdated.split("-").reverse().join(".") }}</b>
+    <br />Обновлено: <b>{{ lastUpdatedText }}</b>
   </div>
 
-  <Search class="search-cont "/>
+  <Search class="search-cont" />
   <Table></Table>
   <div class="last-visited" v-if="lastName != ''">
     Последнее просмотренное:
@@ -44,10 +50,7 @@ const lastUpdated = (await axios.get(LAST_UPDATED_URL)).data
     <router-link :to="lastUrl" v-else>Ссылка</router-link>
   </div>
   <div class="footer">
-    <font-awesome-icon
-      class="footer__info-icon fa-2x"
-      icon="circle-info"
-    />
+    <font-awesome-icon class="footer__info-icon fa-2x" icon="circle-info" />
     <div class="footer__info-text">
       <span>Нашли баг? Возник вопрос? </span
       ><a href="https://vk.com/redmaunn">Пишите мне</a>
@@ -111,14 +114,12 @@ const lastUpdated = (await axios.get(LAST_UPDATED_URL)).data
   border-radius: 1rem;
   width: 22rem;
 }
-.footer__info-text
-{
-  display: inline-block; 
-  position: relative; 
+.footer__info-text {
+  display: inline-block;
+  position: relative;
   left: 2.5rem;
 }
-.footer__info-icon 
-{
+.footer__info-icon {
   margin: 0;
   position: absolute;
   top: 50%;
@@ -179,11 +180,10 @@ const lastUpdated = (await axios.get(LAST_UPDATED_URL)).data
   * {
     font-size: small;
   }
-  .header
-  {
+  .header {
     padding: 1rem;
   }
-  .footer__info-icon  {
+  .footer__info-icon {
     font-size: 2rem !important;
   }
   .header__title #one {

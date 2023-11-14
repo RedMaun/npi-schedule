@@ -1,16 +1,13 @@
 <script setup>
-import currentClass from "../utils/currentClass"
+import currentClass from "../utils/currentClass";
 import { useTimesStore } from "../stores/times";
-import { useTimeStore } from "../stores/currentTime";
 
-const timeStore = useTimeStore();
 const timeSlotsStore = useTimesStore();
 
 await timeSlotsStore.getTimeSlots();
 const timesJson = timeSlotsStore.timesJson;
 const timeSlots = timeSlotsStore.timeSlots;
-timeStore.getTime
-const time = timeStore.time
+const time = new Date().getHours() * 60 + new Date().getMinutes();
 
 let times = [];
 for (let i in timesJson) {
@@ -30,10 +27,15 @@ for (let i in timesJson) {
       <tbody>
         <tr
           v-for="(para, index) in times"
-          :class="currentClass.isCurrent(timeSlots, index, time) ? 'table__current-class' : ''"
+          :class="
+            currentClass.isCurrent(timeSlots, index, time)
+              ? 'table__current-class'
+              : ''
+          "
         >
-          <td class="table__cell"
-            v-if="times.length - 1 == index"
+          <td
+            class="table__cell"
+            v-if="times.length - 1 === index"
             :style="{ 'border-bottom-left-radius': '0.8rem' }"
           >
             <b>{{ index + 1 + " Пара" }}</b>
@@ -41,8 +43,9 @@ for (let i in timesJson) {
           <td class="table__cell" v-else>
             <b>{{ index + 1 + " Пара" }}</b>
           </td>
-          <td class="table__cell"
-            v-if="times.length - 1 == index"
+          <td
+            class="table__cell"
+            v-if="times.length - 1 === index"
             :style="{ 'border-bottom-right-radius': '0.8rem' }"
           >
             {{ para[0] }}
@@ -58,8 +61,7 @@ for (let i in timesJson) {
 * {
   font-size: medium;
 }
-.table__current-class
-{
+.table__current-class {
   background: #3d3f51;
 }
 .table {
@@ -77,8 +79,7 @@ for (let i in timesJson) {
   padding: 0.8rem;
   border: 0.1rem solid #44475a;
 }
-.table__head-cell
-{
+.table__head-cell {
   background-color: #6272a4;
 }
 .table__head-cell:first-child {

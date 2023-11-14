@@ -13,6 +13,10 @@ export const GROUPS_URL = "https://schedule.npi-tu.ru/api/v1/groups";
 export const LECTURERS_URL = "https://schedule.npi-tu.ru/api/v1/lecturers";
 export const AUDITORIUMS_URL = "https://schedule.npi-tu.ru/api/v1/auditoriums";
 
+export const TITLE_FULL =
+  'ФГБОУ ВО "ЮРГПУ (НПИ) имени М.И.Платова". Расписание';
+export const TITLE_SMALL = "ЮРГПУ НПИ Расписание";
+
 export const WEEK_DAYS = [
   "Понедельник",
   "Вторник",
