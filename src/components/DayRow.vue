@@ -10,7 +10,7 @@ const props = defineProps({
   pageType: String,
   index: Number,
   isCurrentDay: Boolean,
-  day: Number
+  day: Number,
 });
 
 const fullNameChecker = (name) => {
@@ -19,7 +19,7 @@ const fullNameChecker = (name) => {
     return false;
   }
 
-  return splittedName[1].length == 1 && splittedName[2].length == 1;
+  return splittedName[1].length === 1 && splittedName[2].length === 1;
 };
 
 const groupNameChecker = (name) => {
@@ -39,15 +39,17 @@ function hrefForAuditorium(name) {
 const { type, firstRow, secondRow, thirdRow } = props.data;
 const classNum = props.data.class;
 const time = new Date().getHours() * 60 + new Date().getMinutes();
-let todaysDayOfWeek = (new Date()).getDay();
-  todaysDayOfWeek = todaysDayOfWeek == 0 ? 7 : todaysDayOfWeek;
+let todaysDayOfWeek = new Date().getDay();
+todaysDayOfWeek = todaysDayOfWeek === 0 ? 7 : todaysDayOfWeek;
 const isCurrent =
-  currentClass.isCurrent(props.times, classNum - 1, time) && props.isCurrentDay && props.day === todaysDayOfWeek - 1;
+  currentClass.isCurrent(props.times, classNum - 1, time) &&
+  props.isCurrentDay &&
+  props.day === todaysDayOfWeek - 1;
 const isGroup = computed(() =>
-  props.pageType === "pr" ? "user-group" : "user"
+  props.pageType === "pr" ? "user-group" : "user",
 );
 const isAuditorium = computed(() =>
-  props.pageType === "st" || props.pageType === "pr" ? "compass" : "user-group"
+  props.pageType === "st" || props.pageType === "pr" ? "compass" : "user-group",
 );
 const bookmarkColor = props.colors[type].color;
 const startOfClass = props.times[classNum - 1][0];

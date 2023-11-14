@@ -65,62 +65,56 @@ let exports = {};
 
 */
 
-function getClass(timesJson, start)
-{
-    for (let i = 1; i <= Object.keys(timesJson).length; i++)
-    {
-        if(timesJson[String(i)].start == start)
-        {
-            return i
-        }
+function getClass(timesJson, start) {
+  for (let i = 1; i <= Object.keys(timesJson).length; i++) {
+    if (timesJson[String(i)].start === start) {
+      return i;
     }
+  }
 }
 
-exports.func = (data, sort, timesJson) =>
-{
-    let weeks = []
-    for (let i = 0; i < data.length; i++)
-    {
-        if (i == 0)
-        {
-            weeks.push({"date": data[i].date, "classes": [
-                {
-                    "firstRow": data[i].discipline,
-                    "secondRow": [data[i][sort]],
-                    "thirdRow": [data[i].auditorium],
-                    "type": data[i].type,
-                    "class": data[i].class || getClass(timesJson, data[i].start)
-                }
-            ]})
-        }
-        else
-        {
-            if (data[i - 1].date == data[i].date)
+exports.func = (data, sort, timesJson) => {
+  let weeks = [];
+  for (let i = 0; i < data.length; i++) {
+    if (i === 0) {
+      weeks.push({
+        date: data[i].date,
+        classes: [
+          {
+            firstRow: data[i].discipline,
+            secondRow: [data[i][sort]],
+            thirdRow: [data[i].auditorium],
+            type: data[i].type,
+            class: data[i].class || getClass(timesJson, data[i].start),
+          },
+        ],
+      });
+    } else {
+      if (data[i - 1].date === data[i].date) {
+        weeks[weeks.length - 1].classes.push({
+          firstRow: data[i].discipline,
+          secondRow: [data[i][sort]],
+          thirdRow: [data[i].auditorium],
+          type: data[i].type,
+          class: data[i].class || getClass(timesJson, data[i].start),
+        });
+      } else {
+        weeks.push({
+          date: data[i].date,
+          classes: [
             {
-                weeks[weeks.length - 1].classes.push({
-                    "firstRow": data[i].discipline,
-                    "secondRow": [data[i][sort]],
-                    "thirdRow": [data[i].auditorium],
-                    "type": data[i].type,
-                    "class": data[i].class || getClass(timesJson, data[i].start)
-                })
-            }
-            else
-            {
-                weeks.push({"date": data[i].date, "classes": [
-                    {
-                        "firstRow": data[i].discipline,
-                        "secondRow": [data[i][sort]],
-                        "thirdRow": [data[i].auditorium],
-                        "type": data[i].type,
-                        "class": data[i].class || getClass(timesJson, data[i].start)
-                    }
-                ]})
-            }
-        }
+              firstRow: data[i].discipline,
+              secondRow: [data[i][sort]],
+              thirdRow: [data[i].auditorium],
+              type: data[i].type,
+              class: data[i].class || getClass(timesJson, data[i].start),
+            },
+          ],
+        });
+      }
     }
-    return [weeks]
-}
-
+  }
+  return [weeks];
+};
 
 export default exports;

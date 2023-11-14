@@ -5,7 +5,7 @@ function weekSep(data) {
   let weekOne = [],
     weekTwo = [];
   for (let i = 0; i < maxI; i++) {
-    if (data.classes[i].week == 1) {
+    if (data.classes[i].week === 1) {
       weekOne.push(data.classes[i]);
     } else {
       weekTwo.push(data.classes[i]);
@@ -18,13 +18,13 @@ function classMerge(data) {
   let maxI = data.length;
   let newData = [];
   for (let i = 0; i < maxI; i++) {
-    if (i == 0 || data[i].day != data[i - 1].day) {
+    if (i === 0 || data[i].day != data[i - 1].day) {
       let tempClass = Object.assign({}, data[i]);
       delete tempClass.day;
       delete tempClass.week;
 
       newData.push({ day: data[i].day - 1, classes: [tempClass] });
-    } else if (data[i].day == data[i - 1].day) {
+    } else if (data[i].day === data[i - 1].day) {
       let tempClass = Object.assign({}, data[i]);
       delete tempClass.day;
       delete tempClass.week;
@@ -36,9 +36,9 @@ function classMerge(data) {
 }
 
 function getRidOfEmptyClasses(weeks) {
-  let weeksCopy = []
+  let weeksCopy = [];
   for (let week of weeks) {
-    let weekCopy = [...week]
+    let weekCopy = [...week];
     for (let g in week) {
       let k = 0;
       let weekClassesCopy = [...week[g].classes];
@@ -53,19 +53,16 @@ function getRidOfEmptyClasses(weeks) {
           k++;
         }
       }
-      if (weekClassesCopy.length === 0)
-      {
-        delete weekCopy[g]
-      }
-      else
-      {
+      if (weekClassesCopy.length === 0) {
+        delete weekCopy[g];
+      } else {
         weekCopy[g].classes = [...weekClassesCopy];
       }
     }
-    weekCopy = weekCopy.filter(function( element ) {
+    weekCopy = weekCopy.filter(function (element) {
       return element !== undefined;
     });
-    weeksCopy.push(weekCopy)
+    weeksCopy.push(weekCopy);
   }
   return weeksCopy;
 }
@@ -75,13 +72,13 @@ function standart(data, sort) {
     for (let i = 0; i < week.length; i++) {
       for (let g = 0; g < week[i].classes.length; g++) {
         for (let z = 0; z < sort.length; z++) {
-          if (sort[z] == "groups") {
+          if (sort[z] === "groups") {
             week[i].classes[g][sort[z]] =
               week[i].classes[g][sort[z]].split(",");
-          } else if (sort[z] == "lecturer") {
+          } else if (sort[z] === "lecturer") {
             week[i].classes[g][sort[z]] =
               week[i].classes[g][sort[z]].split(", ");
-          } else if (sort[z] == "auditorium") {
+          } else if (sort[z] === "auditorium") {
             week[i].classes[g][sort[z]] =
               week[i].classes[g][sort[z]].split(", ");
           }

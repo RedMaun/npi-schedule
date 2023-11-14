@@ -5,7 +5,7 @@ import { GROUPS_URL, LECTURERS_URL, AUDITORIUMS_URL } from "../constants";
 const inputSearch = ref([]);
 
 async function getData(val) {
-  if (val == "") {
+  if (val === "") {
     inputSearch.value = [];
   } else {
     let respGr = (await axios.get(GROUPS_URL + "/" + encodeURI(val))).data;

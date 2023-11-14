@@ -35,7 +35,7 @@ for (let i in timesJson) {
         >
           <td
             class="table__cell"
-            v-if="times.length - 1 == index"
+            v-if="times.length - 1 === index"
             :style="{ 'border-bottom-left-radius': '0.8rem' }"
           >
             <b>{{ index + 1 + " Пара" }}</b>
@@ -45,7 +45,7 @@ for (let i in timesJson) {
           </td>
           <td
             class="table__cell"
-            v-if="times.length - 1 == index"
+            v-if="times.length - 1 === index"
             :style="{ 'border-bottom-right-radius': '0.8rem' }"
           >
             {{ para[0] }}

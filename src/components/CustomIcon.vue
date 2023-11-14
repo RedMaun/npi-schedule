@@ -10,11 +10,10 @@ const props = defineProps({
 // }));
 
 const stylesList = computed(() => ({
-  color: props.color
-}))
+  color: props.color,
+}));
 </script>
 
 <template>
   <font-awesome-icon :icon="name" class="fa-1x" :style="stylesList" />
 </template>
-

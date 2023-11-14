@@ -14,9 +14,8 @@ const props = defineProps({
 });
 
 const { day, classes } = props.data;
-let date
-if (props.data.date)
-{
+let date;
+if (props.data.date) {
   date = props.data.date.split("-").reverse().join(".");
 }
 const isCurrentDay =
@@ -105,13 +104,11 @@ onMounted(() => {
   border: 0.1rem solid #ff5555;
 }
 @media only screen and (max-width: 560px) {
-.day
-{
+  .day {
     width: 96%;
-}
-.dayClass
-{
+  }
+  .dayClass {
     width: 96%;
+  }
 }
-} 
 </style>

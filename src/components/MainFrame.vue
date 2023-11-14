@@ -24,13 +24,12 @@ const colorsStore = useColorsStore();
 
 const timeNow = ref(new Date().getHours() * 60 + new Date().getMinutes());
 setInterval(() => {
-  console.log(timeNow.value)
   timeNow.value = new Date().getHours() * 60 + new Date().getMinutes();
 }, 60000);
 
 let errorMessage = props.errorMessage;
 const weeks = props.weeks;
-if ((weeks[0] || weeks[1]) && weeks[0].length == 0 && weeks[1].length == 0) {
+if ((weeks[0] || weeks[1]) && weeks[0].length === 0 && weeks[1].length === 0) {
   if (errorMessage != undefined) errorMessage += " Нет расписания!";
   else errorMessage = "Нет расписания!";
 }
@@ -39,7 +38,7 @@ let currentWeek = ref(null),
   nextDay,
   currentDate = new Date(),
   dayOfWeek = currentDate.getDay();
-dayOfWeek = dayOfWeek == 0 ? 7 : dayOfWeek;
+dayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek;
 
 function currentWeekIncrement() {
   currentWeek.value = currentWeek.value === 1 ? 2 : 1;
@@ -78,7 +77,7 @@ function getNextDay(dayOfWeek) {
   [currentDay, dayOfWeek] = getNextDayAndWeek(dayOfWeek);
 
   let todaysDayOfWeek = currentDate.getDay();
-  todaysDayOfWeek = todaysDayOfWeek == 0 ? 7 : todaysDayOfWeek;
+  todaysDayOfWeek = todaysDayOfWeek === 0 ? 7 : todaysDayOfWeek;
 
   if (currentDay.day + 1 !== todaysDayOfWeek) {
     return dayOfWeek;
@@ -96,7 +95,7 @@ function getNextDay(dayOfWeek) {
   }
 }
 
-if (props.type == "st-fin" || props.type == "pr-fin" || errorMessage) {
+if (props.type === "st-fin" || props.type === "pr-fin" || errorMessage) {
   currentWeek.value = 1;
   nextDay = [0, 1];
 } else {
@@ -175,10 +174,10 @@ function buttonBack() {
   });
 }
 const dragHandler = (dragState) => {
-  if (dragState.swipe[0] == 1 && dragState.swipe[1] == 0) {
+  if (dragState.swipe[0] === 1 && dragState.swipe[1] === 0) {
     buttons(1);
   }
-  if (dragState.swipe[0] == -1 && dragState.swipe[1] == 0) {
+  if (dragState.swipe[0] === -1 && dragState.swipe[1] === 0) {
     buttons(2);
   }
 };
@@ -188,10 +187,8 @@ if (weeks[currentWeek.value - 1]) {
 }
 
 const week = computed(() => {
-  return weeks[currentWeek.value - 1]
-})
-
-
+  return weeks[currentWeek.value - 1];
+});
 </script>
 
 <template>
@@ -202,12 +199,11 @@ const week = computed(() => {
       </div>
       <div class="header__groupName">
         {{ groupName }}
-        <span v-if="type == 'st-fin' && type == 'pr-fin'">Сессия</span>
+        <span v-if="type === 'st-fin' && type === 'pr-fin'">Сессия</span>
       </div>
       <div class="header__row">
         <button
-          v-if="type == 'st-fin' || type == 'pr-fin'"
-          :style="{ 'margin-right': '0.5rem' }"
+          v-if="type === 'st-fin' || type === 'pr-fin'"
           class="header__button"
           id="back"
           @click="buttonBack()"
@@ -220,7 +216,7 @@ const week = computed(() => {
           id="firstWeek"
           @click="buttons(1)"
           :style="{
-            background: currentWeek == 1 ? '#ff5555' : '#6272a4',
+            background: currentWeek === 1 ? '#ff5555' : '#6272a4',
           }"
         >
           1 Неделя
@@ -231,7 +227,7 @@ const week = computed(() => {
           id="secondWeek"
           @click="buttons(2)"
           :style="{
-            background: currentWeek == 2 ? '#ff5555' : '#6272a4',
+            background: currentWeek === 2 ? '#ff5555' : '#6272a4',
           }"
         >
           2 Неделя
@@ -258,7 +254,7 @@ const week = computed(() => {
       {{ errorMessage }}
     </div>
     <div v-else>
-      <div class="info-cont" v-if="type == 'st'">
+      <div class="info-cont" v-if="type === 'st'">
         <div class="info-cont__semester-text">
           <b>Семестр:</b> {{ semesterStart + " — " + semesterEnd }}
         </div>
