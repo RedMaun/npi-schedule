@@ -48,12 +48,11 @@ const isCurrent = computed(() => {
     props.day === todaysDayOfWeek - 1
   );
 });
-const isGroup = computed(() =>
-  props.pageType === "pr" ? "user-group" : "user",
-);
-const isAuditorium = computed(() =>
-  props.pageType === "st" || props.pageType === "pr" ? "compass" : "user-group",
-);
+const isGroup = props.pageType === "pr" ? "user-group" : "user";
+
+const isAuditorium =
+  props.pageType === "st" || props.pageType === "pr" ? "compass" : "user-group";
+
 const bookmarkColor = props.colors[type].color;
 const startOfClass = props.times[classNum - 1][0];
 const endOfClass = props.times[classNum - 1][1];
