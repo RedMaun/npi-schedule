@@ -33,7 +33,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <article class="day" ref="activeClass">
+  <article class="day" ref="activeClass" :isCurrentDay="isCurrentDay">
     <header
       :class="!isCurrentDay ? 'day__dayOfWeek' : 'day__dayOfWeek_isCurrentDay'"
     >

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, onUpdated } from "vue";
 import DayCard from "./DayCard.vue";
 import Pdf from "./Pdf.vue";
 import { useRouter } from "vue-router";
@@ -189,6 +189,34 @@ if (weeks[currentWeek.value - 1]) {
 const week = computed(() => {
   return weeks[currentWeek.value - 1];
 });
+
+let currentDay;
+const getCurrentDay = () => {
+  const days = Array.from(document.getElementsByClassName("day"));
+  days.map((day) => {
+    if (day.getAttribute("isCurrentDay") === "true") {
+      currentDay = day;
+    }
+  });
+};
+
+onMounted(() => {
+  getCurrentDay();
+});
+onUpdated(() => {
+  getCurrentDay();
+});
+
+const scrollToCurrentDay = () => {
+  let scrollBefore = window.scrollY;
+  currentDay.scrollIntoView({ block: "start" });
+  let scrollAfter = window.scrollY;
+  if (scrollAfter - scrollBefore !== 0) {
+    let headerHeight =
+      document.getElementsByClassName("header")[0].offsetHeight;
+    window.scroll(0, window.scrollY - headerHeight - 10);
+  }
+};
 </script>
 
 <template>
@@ -263,6 +291,10 @@ const week = computed(() => {
         </div>
       </div>
       <div class="info-cont" v-else style="margin-top: 1rem"></div>
+      <button
+        class="scroll-to-current-day"
+        @click="scrollToCurrentDay"
+      ></button>
       <div class="main-frame">
         <div v-if="areClassesExists">
           <DayCard
@@ -308,7 +340,20 @@ const week = computed(() => {
   align-items: center;
   justify-content: center;
 }
-
+.scroll-to-current-day {
+  position: fixed;
+  width: 10rem;
+  background-color: transparent;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  border: none;
+  transition: all 0.2s ease-out;
+  cursor: pointer;
+}
+.scroll-to-current-day:hover {
+  background-color: #f8f8f210;
+}
 .header__groupName {
   margin-left: 1rem;
   font-weight: 700;
@@ -396,7 +441,11 @@ const week = computed(() => {
   margin: auto;
   margin-top: 10rem;
 }
-
+@media only screen and (max-width: 1120px) {
+  .scroll-to-current-day {
+    display: none;
+  }
+}
 @media only screen and (max-width: 1000px) {
   .print span {
     display: none;
