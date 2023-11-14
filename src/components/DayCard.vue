@@ -16,7 +16,7 @@ const props = defineProps({
 const { day, classes } = props.data;
 let date
 if (props.data.date)
-{isCurrentDay
+{
   date = props.data.date.split("-").reverse().join(".");
 }
 const isCurrentDay =

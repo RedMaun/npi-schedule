@@ -2,7 +2,7 @@
 <script setup>
 import axios from "axios";
 import { defineAsyncComponent } from "vue";
-import { INF_LINES_URL, LAST_UPDATED_URL } from "../constants";
+import { INF_LINES_URL, LAST_UPDATED_URL, TITLE_FULL, TITLE_SMALL } from "../constants";
 import { useCurrentWeekNumberStore } from "../stores/weekNumber";
 
 const Search = defineAsyncComponent(() => import("./Search.vue"));
@@ -19,21 +19,23 @@ if ((lastUrl = localStorage.getItem("url"))) {
 const currentWeek = currentWeekNumberStore.currentWeekNumber
 const inf = (await axios.get(INF_LINES_URL)).data
 const lastUpdated = (await axios.get(LAST_UPDATED_URL)).data
+const lastUpdatedText = lastUpdated.split("-").reverse().join(".") 
+
 </script>
 
 <template>
   <div class="header">
     <div class="header__logo"><img src="/logo.png" /></div>
     <div class="header__title">
-      <span id="one">ФГБОУ ВО "ЮРГПУ (НПИ) имени М.И.Платова". Расписание</span>
-      <span id="two">ЮРГПУ НПИ Расписание</span>
+      <span id="one">{{ TITLE_FULL }}</span>
+      <span id="two">{{ TITLE_SMALL }}</span>
     </div>
     <div class="header__week">{{ currentWeek }} Неделя</div>
   </div>
 
   <div class="message">
     {{ inf.run[0] }}
-    <br />Обновлено: <b>{{ lastUpdated.split("-").reverse().join(".") }}</b>
+    <br />Обновлено: <b>{{ lastUpdatedText }}</b>
   </div>
 
   <Search class="search-cont "/>
