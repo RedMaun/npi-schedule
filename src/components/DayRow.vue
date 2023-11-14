@@ -100,7 +100,7 @@ function toggleCollapsible() {
           <CustomIcon :name="isGroup" />
         </div>
         <div class="box__text">
-          <div v-for="item in secondRow">
+          <div v-for="item in secondRow" class="box__text-item">
             <a v-if="fullNameChecker(item)" :href="hrefForLecturer(item)">{{
               item
             }}</a>
@@ -223,8 +223,11 @@ a:active {
   flex-wrap: wrap;
 }
 .box__text_selected {
-  padding: 0.3rem;
-  border-radius: 0.5rem;
+  padding: 0.2rem;
+  line-height: 1.4rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-radius: 0.3rem;
   background: #44475a;
 }
 </style>
