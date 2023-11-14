@@ -1,12 +1,11 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, computed } from "vue";
 import DayCard from "./DayCard.vue";
 import Pdf from "./Pdf.vue";
 import { useRouter } from "vue-router";
 import { useTimesStore } from "../stores/times";
 import { useCurrentWeekNumberStore } from "../stores/weekNumber";
 import { useColorsStore } from "../stores/colors";
-import { useTimeStore } from "../stores/currentTime";
 import { COLOR_DESIGN, MONTHS } from "../constants";
 
 const props = defineProps({
@@ -18,20 +17,16 @@ const props = defineProps({
 });
 
 const timeSlotsStore = useTimesStore();
-const timeStore = useTimeStore();
 await timeSlotsStore.getTimeSlots();
 const times = timeSlotsStore.timeSlots;
 const currentWeekNumberStore = useCurrentWeekNumberStore();
 const colorsStore = useColorsStore();
 
-timeStore.getTime;
-const timeNow = ref(timeStore.time);
-onMounted(() => {
-  setInterval(() => {
-    timeStore.getTime;
-    timeNow.value = timeStore.time;
-  }, 60000);
-});
+const timeNow = ref(new Date().getHours() * 60 + new Date().getMinutes());
+setInterval(() => {
+  console.log(timeNow.value)
+  timeNow.value = new Date().getHours() * 60 + new Date().getMinutes();
+}, 60000);
 
 let errorMessage = props.errorMessage;
 const weeks = props.weeks;
@@ -191,6 +186,12 @@ let areClassesExists;
 if (weeks[currentWeek.value - 1]) {
   areClassesExists = weeks[currentWeek.value - 1].length != 0;
 }
+
+const week = computed(() => {
+  return weeks[currentWeek.value - 1]
+})
+
+
 </script>
 
 <template>
@@ -269,8 +270,8 @@ if (weeks[currentWeek.value - 1]) {
       <div class="main-frame">
         <div v-if="areClassesExists">
           <DayCard
-            v-for="day in currentWeek == 1 ? weeks[0] : weeks[1]"
-            :key="currentWeek + timeNow"
+            v-for="day in week"
+            :key="timeNow + currentWeek"
             :colors="colors"
             :timeNow="timeNow"
             :type="type"

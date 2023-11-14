@@ -1,7 +1,6 @@
 <script setup>
 import currentClass from "../utils/currentClass";
 import CustomIcon from "./CustomIcon.vue";
-import { useTimeStore } from "../stores/currentTime";
 import { computed } from "vue";
 
 const props = defineProps({
@@ -39,9 +38,7 @@ function hrefForAuditorium(name) {
 
 const { type, firstRow, secondRow, thirdRow } = props.data;
 const classNum = props.data.class;
-const timeStore = useTimeStore();
-timeStore.getTime;
-const time = timeStore.time;
+const time = new Date().getHours() * 60 + new Date().getMinutes();
 let todaysDayOfWeek = (new Date()).getDay();
   todaysDayOfWeek = todaysDayOfWeek == 0 ? 7 : todaysDayOfWeek;
 const isCurrent =
