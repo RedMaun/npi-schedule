@@ -1,7 +1,7 @@
 <script setup>
 import currentClass from "../utils/currentClass";
 import CustomIcon from "./CustomIcon.vue";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 
 const props = defineProps({
   data: Object,
@@ -11,6 +11,7 @@ const props = defineProps({
   index: Number,
   isCurrentDay: Boolean,
   day: Number,
+  timeNow: Number,
 });
 
 const fullNameChecker = (name) => {
@@ -38,13 +39,15 @@ function hrefForAuditorium(name) {
 
 const { type, firstRow, secondRow, thirdRow } = props.data;
 const classNum = props.data.class;
-const time = new Date().getHours() * 60 + new Date().getMinutes();
 let todaysDayOfWeek = new Date().getDay();
 todaysDayOfWeek = todaysDayOfWeek === 0 ? 7 : todaysDayOfWeek;
-const isCurrent =
-  currentClass.isCurrent(props.times, classNum - 1, time) &&
-  props.isCurrentDay &&
-  props.day === todaysDayOfWeek - 1;
+const isCurrent = computed(() => {
+  return (
+    currentClass.isCurrent(props.times, classNum - 1, props.timeNow) &&
+    props.isCurrentDay &&
+    props.day === todaysDayOfWeek - 1
+  );
+});
 const isGroup = computed(() =>
   props.pageType === "pr" ? "user-group" : "user",
 );
@@ -54,10 +57,29 @@ const isAuditorium = computed(() =>
 const bookmarkColor = props.colors[type].color;
 const startOfClass = props.times[classNum - 1][0];
 const endOfClass = props.times[classNum - 1][1];
+const collapsible = ref(null);
+
+function toggleCollapsible() {
+  const collapsibleDivs = Array.from(
+    collapsible.value.getElementsByClassName("box__text-item_collapsible"),
+  );
+  collapsibleDivs.map((item) => {
+    item.style.display =
+      item.style.display === "" || item.style.display === "none"
+        ? "block"
+        : "none";
+  });
+  const collapsiblePath =
+    collapsible.value.getElementsByClassName("box__button")[0];
+  collapsiblePath.innerText =
+    collapsiblePath.innerText === "Показывать больше..."
+      ? "Скрыть"
+      : "Показывать больше...";
+}
 </script>
 
 <template>
-  <div class="day-row">
+  <div class="day-row" ref="collapsible">
     <div class="day-row__number">
       <span>{{ classNum }}</span>
     </div>
@@ -87,19 +109,26 @@ const endOfClass = props.times[classNum - 1][1];
           </div>
         </div>
       </div>
-
       <div class="box">
         <div class="box__icon">
           <CustomIcon :name="isAuditorium" />
         </div>
         <div class="box__text">
-          <div v-for="item in thirdRow">
+          <div
+            v-for="(item, i) in thirdRow"
+            :class="i < 2 ? 'box__text-item' : 'box__text-item_collapsible'"
+          >
             <a v-if="!groupNameChecker(item)" :href="hrefForAuditorium(item)">{{
               item
             }}</a>
             <span v-else>{{ item }}</span>
           </div>
         </div>
+      </div>
+      <div class="box" v-if="thirdRow.length > 3">
+        <button class="box__button" @click="toggleCollapsible">
+          Показывать больше...
+        </button>
       </div>
     </div>
   </div>
@@ -120,7 +149,20 @@ a:active {
   display: flex;
   flex-direction: row;
 }
-
+.box__button {
+  width: fit-content;
+  outline: none;
+  border: none;
+  background: transparent;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  cursor: pointer;
+  font-size: 0.7rem;
+  margin-left: 1.5rem;
+}
+.box__text-item_collapsible {
+  display: none;
+}
 .day-row:nth-child(odd) {
   background-color: #2b2e3b;
 }

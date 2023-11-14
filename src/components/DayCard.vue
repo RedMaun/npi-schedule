@@ -52,6 +52,7 @@ onMounted(() => {
         :isCurrentDay="isCurrentDay"
         :index="index"
         :pageType="type"
+        :timeNow="timeNow"
         :colors="colors"
         :times="times"
         :data="classItem"

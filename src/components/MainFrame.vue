@@ -21,6 +21,7 @@ await timeSlotsStore.getTimeSlots();
 const times = timeSlotsStore.timeSlots;
 const currentWeekNumberStore = useCurrentWeekNumberStore();
 const colorsStore = useColorsStore();
+const router = useRouter();
 
 const timeNow = ref(new Date().getHours() * 60 + new Date().getMinutes());
 setInterval(() => {
@@ -162,7 +163,6 @@ function buttons(val) {
   }
   currentWeek.value = val;
 }
-const router = useRouter();
 function sessionButton() {
   router.push({
     path: window.location.pathname.split("/schedule")[0] + "/finals-schedule",
@@ -267,7 +267,7 @@ const week = computed(() => {
         <div v-if="areClassesExists">
           <DayCard
             v-for="day in week"
-            :key="timeNow + currentWeek"
+            :key="currentWeek"
             :colors="colors"
             :timeNow="timeNow"
             :type="type"

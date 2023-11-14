@@ -67,7 +67,7 @@ function getRidOfEmptyClasses(weeks) {
   return weeksCopy;
 }
 
-function standart(data, sort) {
+function standard(data, sort) {
   for (let week of data) {
     for (let i = 0; i < week.length; i++) {
       for (let g = 0; g < week[i].classes.length; g++) {
@@ -102,7 +102,7 @@ exports.func = (data, sort) => {
   weekTwo = classMerge(weekTwo);
   let weeks = [weekOne, weekTwo];
   weeks = getRidOfEmptyClasses(weeks);
-  weeks = standart(weeks, sort);
+  weeks = standard(weeks, sort);
   return weeks;
 };
 
