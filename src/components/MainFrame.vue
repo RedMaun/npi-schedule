@@ -138,6 +138,11 @@ if (props.info[0] != undefined && props.info[1] != undefined) {
     " " +
     dateSessionEnd.getFullYear();
 }
+const hrefForReview = (name) => {
+  const splittedName = name.split(" ");
+  const encodedURI = `${splittedName[0]} ${splittedName[1]} ${splittedName[2]}`;
+  return `/reviews/${encodedURI}`;
+};
 
 function adaptiveTypes(weeks, currentWeek) {
   let week = weeks[currentWeek - 1];
@@ -181,16 +186,19 @@ const dragHandler = (dragState) => {
     buttons(2);
   }
 };
-let areClassesExists;
-if (weeks[currentWeek.value - 1]) {
-  areClassesExists = weeks[currentWeek.value - 1].length != 0;
-}
+const areClassesExists = computed(() => {
+  if (weeks[currentWeek.value - 1]) {
+    return weeks[currentWeek.value - 1].length != 0;
+  }
+});
 
 const week = computed(() => {
   return weeks[currentWeek.value - 1];
 });
 
-let currentDay;
+const scrollToCurrentDayRef = ref(null);
+
+let currentDay, headerHeight, currentDayScrollY, header = ref(null);
 const getCurrentDay = () => {
   const days = Array.from(document.getElementsByClassName("day"));
   days.map((day) => {
@@ -198,13 +206,17 @@ const getCurrentDay = () => {
       currentDay = day;
     }
   });
+  
+  currentDayScrollY = currentDay ? currentDay.offsetTop : 0;
 };
 
 onMounted(() => {
   getCurrentDay();
+  headerHeight = header.value.offsetHeight;
 });
 onUpdated(() => {
   getCurrentDay();
+  headerHeight = header.value.offsetHeight;
 });
 
 const scrollToCurrentDay = () => {
@@ -212,8 +224,6 @@ const scrollToCurrentDay = () => {
   currentDay.scrollIntoView({ block: "start" });
   let scrollAfter = window.scrollY;
   if (scrollAfter - scrollBefore !== 0) {
-    let headerHeight =
-      document.getElementsByClassName("header")[0].offsetHeight;
     window.scroll(0, window.scrollY - headerHeight - 10);
   }
 };
@@ -221,7 +231,7 @@ const scrollToCurrentDay = () => {
 
 <template>
   <div v-drag="dragHandler">
-    <div class="header">
+    <div class="header" ref="header">
       <div class="header__logo">
         <router-link to="/"><img src="/logo.png" /></router-link>
       </div>
@@ -293,6 +303,7 @@ const scrollToCurrentDay = () => {
       <div class="info-cont" v-else style="margin-top: 1rem"></div>
       <button
         class="scroll-to-current-day"
+        ref="scrollToCurrentDayRef"
         @click="scrollToCurrentDay"
       ></button>
       <div class="main-frame">
@@ -320,6 +331,9 @@ const scrollToCurrentDay = () => {
           {{ colors[types].name }}
         </div>
       </div>
+      <a :href="hrefForReview(groupName)" v-if="type === 'pr'" class="review-button">
+        <button>Написать отзыв</button>
+      </a>
     </div>
   </div>
 </template>
@@ -340,9 +354,28 @@ const scrollToCurrentDay = () => {
   align-items: center;
   justify-content: center;
 }
+.review-button
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10rem;
+  text-decoration: none;
+  
+}
+.review-button button
+{
+  padding: 1rem;
+  border-radius: 1rem;
+  border: none;
+  cursor: pointer;
+  background-color: #f8f8f2;
+  color: #282A36;
+}
+
 .scroll-to-current-day {
   position: fixed;
-  width: 10rem;
+  width: 12rem;
   background-color: transparent;
   height: 100vh;
   top: 0;
@@ -350,10 +383,13 @@ const scrollToCurrentDay = () => {
   border: none;
   transition: all 0.2s ease-out;
   cursor: pointer;
+  color: transparent;
 }
 .scroll-to-current-day:hover {
   background-color: #f8f8f210;
+  color: #f8f8f2;
 }
+
 .header__groupName {
   margin-left: 1rem;
   font-weight: 700;
@@ -408,7 +444,7 @@ const scrollToCurrentDay = () => {
   justify-content: center;
   width: 40rem;
   margin: auto;
-  margin-bottom: 10rem;
+  margin-bottom: 1rem;
   margin-top: 2rem;
   height: 3rem;
 }
@@ -441,7 +477,7 @@ const scrollToCurrentDay = () => {
   margin: auto;
   margin-top: 10rem;
 }
-@media only screen and (max-width: 1120px) {
+@media only screen and (max-width: 1160px) {
   .scroll-to-current-day {
     display: none;
   }
@@ -493,7 +529,7 @@ const scrollToCurrentDay = () => {
   }
   .discipline-types {
     max-width: 90%;
-    margin-bottom: 5rem;
+    margin-bottom: 0.5rem;
     margin-top: 1rem;
   }
   .discipline-types__type {

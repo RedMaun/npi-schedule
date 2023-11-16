@@ -1,19 +1,12 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
 import axios from "axios";
+import HeaderFull from "./HeaderFull.vue";
 import { defineAsyncComponent } from "vue";
-import {
-  INF_LINES_URL,
-  LAST_UPDATED_URL,
-  TITLE_FULL,
-  TITLE_SMALL,
-} from "../constants";
-import { useCurrentWeekNumberStore } from "../stores/weekNumber";
+import { INF_LINES_URL, LAST_UPDATED_URL } from "../constants";
 
 const Search = defineAsyncComponent(() => import("./Search.vue"));
 const Table = defineAsyncComponent(() => import("./Table.vue"));
-const currentWeekNumberStore = useCurrentWeekNumberStore();
-await currentWeekNumberStore.getCurrentWeekNumber();
 
 let lastUrl,
   lastName = "";
@@ -21,21 +14,13 @@ if ((lastUrl = localStorage.getItem("url"))) {
   lastUrl = localStorage.getItem("url").split(",")[0];
   lastName = localStorage.getItem("url").split(",")[1];
 }
-const currentWeek = currentWeekNumberStore.currentWeekNumber;
 const inf = (await axios.get(INF_LINES_URL)).data;
 const lastUpdated = (await axios.get(LAST_UPDATED_URL)).data;
 const lastUpdatedText = lastUpdated.split("-").reverse().join(".");
 </script>
 
 <template>
-  <div class="header">
-    <div class="header__logo"><img src="/logo.png" /></div>
-    <div class="header__title">
-      <span id="one">{{ TITLE_FULL }}</span>
-      <span id="two">{{ TITLE_SMALL }}</span>
-    </div>
-    <div class="header__week">{{ currentWeek }} Неделя</div>
-  </div>
+  <HeaderFull />
 
   <div class="message">
     {{ inf.run[0] }}
@@ -78,22 +63,7 @@ const lastUpdatedText = lastUpdated.split("-").reverse().join(".");
   margin-top: 2rem;
   margin-bottom: 4rem;
 }
-.header {
-  padding: 0.5rem;
-  top: 0px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  z-index: 10;
-  width: 100%;
-  height: 3rem;
-  background-color: #44475a;
-  border-bottom: 0.1rem solid #6272a4;
-}
-.header__title #two {
-  display: none;
-}
+
 .search-cont {
   margin-top: 3rem;
 }
@@ -133,45 +103,7 @@ const lastUpdatedText = lastUpdated.split("-").reverse().join(".");
   margin: auto;
   margin-top: 4rem;
 }
-.header__logo {
-  height: 3rem;
-  width: 4.5rem;
-  margin-right: 1rem;
-}
-.header__logo img {
-  height: 3rem;
-  width: 4.5rem;
-}
-.header__title {
-  width: fit-content;
-  min-height: 1rem;
-  line-height: 1rem;
-  border-radius: 1rem;
-  padding: 1rem;
-  background-color: #f8f8f2;
-  color: #282a36;
-  margin-right: 1rem;
-  font-weight: 700;
-}
-.header__week {
-  width: 5rem;
-  height: 1rem;
-  line-height: 1rem;
-  text-align: center;
-  white-space: nowrap;
-  margin-right: 1rem;
-  border-radius: 1rem;
-  padding: 1rem;
-  background-color: #282a36;
-}
-
 @media only screen and (max-width: 840px) {
-  .header__title #one {
-    display: none;
-  }
-  .header__title #two {
-    display: block;
-  }
   .table-cont {
     width: 90%;
   }
@@ -180,17 +112,8 @@ const lastUpdatedText = lastUpdated.split("-").reverse().join(".");
   * {
     font-size: small;
   }
-  .header {
-    padding: 1rem;
-  }
   .footer__info-icon {
     font-size: 2rem !important;
-  }
-  .header__title #one {
-    display: none;
-  }
-  .header__title #two {
-    display: block;
   }
   .search {
     max-width: 24rem;
@@ -205,6 +128,11 @@ const lastUpdatedText = lastUpdated.split("-").reverse().join(".");
   }
   .message {
     width: 80%;
+  }
+}
+@media only screen and (max-width: 370px) {
+  * {
+    font-size: xx-small !important;
   }
 }
 </style>

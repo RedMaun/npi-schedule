@@ -11,7 +11,6 @@ async function getData(val) {
     let respGr = (await axios.get(GROUPS_URL + "/" + encodeURI(val))).data;
     respGr = Object.entries(respGr);
     let respLe = (await axios.get(LECTURERS_URL + "/" + encodeURI(val))).data;
-    respLe = respLe;
     let respAu = (await axios.get(AUDITORIUMS_URL + "/" + encodeURI(val))).data;
     let respAuTemp = Object.entries(respAu);
     respAu = [];

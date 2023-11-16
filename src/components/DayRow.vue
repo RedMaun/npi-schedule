@@ -23,14 +23,15 @@ const fullNameChecker = (name) => {
   return splittedName[1].length === 1 && splittedName[2].length === 1;
 };
 
-const groupNameChecker = (name) => {
-  return name.split("-").length === 3;
-};
-
 const hrefForLecturer = (name) => {
   const splittedName = name.split(" ");
   const encodedURI = `${splittedName[0]} ${splittedName[1]} ${splittedName[2]}`;
   return `/lecturers/${encodedURI}/schedule`;
+};
+
+
+const groupNameChecker = (name) => {
+  return name.split("-").length === 3;
 };
 
 function hrefForAuditorium(name) {

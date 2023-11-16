@@ -8,6 +8,8 @@ import SearchWrapper from "./views/SearchWrapper.vue";
 import NotFound from "./views/NotFound.vue";
 import Schedule from "./views/Schedule.vue";
 import ScheduleFinals from "./views/ScheduleFinals.vue";
+import Reviews from "./views/Reviews.vue"
+import ReviewsLecturer from "./views/ReviewsLecturer.vue"
 import App from "./App.vue";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -15,7 +17,6 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import { createPinia } from "pinia";
 const pinia = createPinia();
-
 import {
   faBookmark,
   faUser,
@@ -24,6 +25,9 @@ import {
   faUserGroup,
   faSearch,
   faCircleInfo,
+  faPlus,
+  faStar,
+  faArrowLeft
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./registerServiceWorker";
@@ -36,6 +40,9 @@ library.add([
   faUserGroup,
   faSearch,
   faCircleInfo,
+  faPlus,
+  faStar,
+  faArrowLeft
 ]);
 const routes = [
   { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
@@ -102,6 +109,14 @@ const routes = [
       type: "pr-fin",
     },
   },
+  {
+    path: "/reviews",
+    component: Reviews,
+  },
+  {
+    path: "/reviews/:lecturer",
+    component: ReviewsLecturer,
+  }
 ];
 
 const router = createRouter({
