@@ -119,6 +119,7 @@ onMounted(() => {
 .frame {
   width: 40rem;
   margin: auto;
+  min-width: 25rem;
   margin-top: 3rem;
 }
 .title {
@@ -216,5 +217,10 @@ onMounted(() => {
 }
 .reviews-cont:last-child {
   margin-bottom: 10rem;
+}
+@media only screen and (max-width: 600px) {
+  .frame {
+    width: 90%;
+  }
 }
 </style>

@@ -1,15 +1,16 @@
 <script setup>
-import { ref, onBeforeMount } from "vue";
+import { ref } from "vue";
 import Review from "../components/Review.vue";
 import { io } from "socket.io-client";
-const data = ref(null);
 const socket = io("http://localhost:3000");
 socket.on("connect", () => {
   socket.emit("getData");
   socket.on("takeData", (comments) => {
     data.value = comments;
+    console.log('jjhagsjgasljkglajskjlkh')
   });
 });
+const data = ref(null);
 </script>
 
 <template>
@@ -34,6 +35,7 @@ socket.on("connect", () => {
 <style scoped>
 .frame {
   width: 40rem;
+  min-width: 20rem;
   margin: auto;
 }
 .no-reviews {
@@ -68,5 +70,10 @@ socket.on("connect", () => {
 }
 .reviews-cont:last-child {
   margin-bottom: 10rem;
+}
+@media only screen and (max-width: 600px) {
+  .frame {
+    width: 90%;
+  }
 }
 </style>

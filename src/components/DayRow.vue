@@ -164,6 +164,12 @@ a:active {
   cursor: pointer;
   font-size: 0.7rem;
   margin-left: 1.5rem;
+} 
+.box__text b, .box__text-item a, .box__text-item span
+{
+  white-space: normal;
+  word-break: break-word;
+  word-wrap: break-word;
 }
 .box__text-item_collapsible {
   display: none;
