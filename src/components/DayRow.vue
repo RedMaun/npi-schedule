@@ -23,14 +23,15 @@ const fullNameChecker = (name) => {
   return splittedName[1].length === 1 && splittedName[2].length === 1;
 };
 
-const groupNameChecker = (name) => {
-  return name.split("-").length === 3;
-};
-
 const hrefForLecturer = (name) => {
   const splittedName = name.split(" ");
   const encodedURI = `${splittedName[0]} ${splittedName[1]} ${splittedName[2]}`;
   return `/lecturers/${encodedURI}/schedule`;
+};
+
+
+const groupNameChecker = (name) => {
+  return name.split("-").length === 3;
 };
 
 function hrefForAuditorium(name) {
@@ -48,10 +49,10 @@ const isCurrent = computed(() => {
     props.day === todaysDayOfWeek - 1
   );
 });
-const isGroup = props.pageType === "pr" ? "user-group" : "user";
+const isGroup = props.pageType === "pr" ? "compass" : "user";
 
 const isAuditorium =
-  props.pageType === "st" || props.pageType === "pr" ? "compass" : "user-group";
+  props.pageType === "pr" || props.pageType === "au" ? "user-group" : "compass";
 
 const bookmarkColor = props.colors[type].color;
 const startOfClass = props.times[classNum - 1][0];
@@ -104,6 +105,11 @@ function toggleCollapsible() {
             <a v-if="fullNameChecker(item)" :href="hrefForLecturer(item)">{{
               item
             }}</a>
+            <a
+              v-else-if="!groupNameChecker(item)"
+              :href="hrefForAuditorium(item)"
+              >{{ item }}</a
+            >
             <span v-else>{{ item }}</span>
           </div>
         </div>
@@ -223,8 +229,8 @@ a:active {
   flex-wrap: wrap;
 }
 .box__text_selected {
-  padding: 0.2rem;
-  line-height: 1.4rem;
+  padding: 0.3rem;
+  line-height: 1rem;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   border-radius: 0.3rem;

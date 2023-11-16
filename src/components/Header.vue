@@ -7,8 +7,8 @@
   color: #f8f8f2;
   width: 100%;
   height: 3rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  /* padding-top: 0.5rem;
+  padding-bottom: 0.5rem; */
   display: inline-flex;
   position: fixed;
   top: 0px;
