@@ -6,7 +6,7 @@ const props = defineProps({
   data: Object,
 });
 
-const socket = io("http://localhost:3000");
+const socket = io("https://socket.redmaun.ru");
 const { name, grade, text, lecturer, _id } = props.data;
 
 const likes = ref(props.data.likes);

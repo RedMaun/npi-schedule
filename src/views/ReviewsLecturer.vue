@@ -20,7 +20,7 @@ onBeforeMount(async () => {
 });
 
 let rawData;
-const socket = io("http://localhost:3000");
+const socket = io("https://socket.redmaun.ru");
 const route = useRoute();
 const router = useRouter();
 const lecturer = route.params.lecturer;

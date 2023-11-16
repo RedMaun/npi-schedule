@@ -8,9 +8,10 @@ const { Server } = require("socket.io");
 const Comment = require('./model/Comment');
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:8080"
+    origin: "*",
   }
 });
+
 
 io.on('connection', (socket) => {
   socket.on("getData", async () => {
@@ -88,7 +89,7 @@ io.on('connection', (socket) => {
 async function start() {
   try {
     mongoose.connect(process.env.TOKEN);
-    server.listen(3000, '0.0.0.0', () => {
+    server.listen(3001, () => {
       console.log("listening on http://127.0.0.1:3000/");
     });
   } catch (e) {

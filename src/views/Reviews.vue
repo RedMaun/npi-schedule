@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import Review from "../components/Review.vue";
 import { io } from "socket.io-client";
-const socket = io("http://localhost:3000");
+const socket = io("https://socket.redmaun.ru");
 socket.on("connect", () => {
   socket.emit("getData");
   socket.on("takeData", (comments) => {
